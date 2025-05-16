@@ -1,0 +1,152 @@
+# Одежда и обувь
+
+## Верхняя одежда
+- jacket (577)
+- hoodie (1450)
+- pullover (1132)
+- sweatshirt (292)
+- fleece (443)
+- windshirt (33)
+- windrunner (24)
+- anorak (20)
+- parka (6)
+
+## Футболки и топы
+- t-shirt (3367)
+- long-sleeve (773)
+- short-sleeve (463)
+- tank (252)
+- sleeveless (91)
+- polo (326)
+- henley (7)
+
+## Спортивная одежда
+- dri-fit (4351)
+- training (148)
+- workout (127)
+- fitness (104)
+- performance (62)
+- sportswear (4)
+
+## Штаны и брюки
+- pants (792)
+- shorts (1655)
+- joggers (231)
+- sweatpants (93)
+- cargo (94)
+- chino (47)
+- leggings (201)
+
+## Спортивная обувь
+- shoes (3433)
+- cleats (458)
+- slides (134)
+- sandals (48)
+- flip-flops (5)
+- sneaker (3)
+
+## Аксессуары
+- hat (552)
+- cap (427)
+- beanie (119)
+- sunglasses (112)
+- gloves (130)
+- scarf (44)
+- belt (77)
+- socks (242)
+
+# Спортивные категории
+
+## Командные виды спорта
+- basketball (652)
+- football (557)
+- soccer (1107)
+- baseball/softball (5)
+- volleyball (45)
+- hockey (6)
+- rugby (5)
+
+## Индивидуальные виды спорта
+- tennis (337)
+- golf (507)
+- running (42)
+- training (148)
+- yoga (7)
+- gymnastics (7)
+
+## Лиги и соревнования
+- nba (1029)
+- nfl (1220)
+- mlb (1800)
+- nwsl (154)
+- wnba (134)
+- college (1470)
+
+# Размеры и категории
+
+## Возрастные категории
+- men's (8281)
+- women's (3968)
+- big kids (2198)
+- little kids (700)
+- baby (298)
+- toddler (295)
+
+## Размерные характеристики
+- plus size (241)
+- oversized (306)
+- over-oversized (50)
+- slim (106)
+- wide (79)
+- extended size (59)
+
+# Стили и особенности
+
+## Фасоны
+- crew (354)
+- crew-neck (249)
+- v-neck (5)
+- high-neck (7)
+- mock-neck (13)
+- racerback (33)
+
+## Материалы и текстуры
+- terry (257)
+- knit (148)
+- mesh (114)
+- fleece (443)
+- cotton (13)
+- nylon (4)
+- leather (4)
+
+## Особенности дизайна
+- graphic (165)
+- printed (101)
+- striped (41)
+- plaid (5)
+- floral (5)
+- colorblocked (5)
+
+# Аксессуары и сумки
+- bag (207)
+- backpack (157)
+- duffel (39)
+- tote (34)
+- fanny (8)
+- waistpack (4)
+- crossbody (65)
+
+# Сезонные категории
+- winterized (38)
+- waterproof (36)
+- water-repellent (21)
+- quick-dry (4)
+- insulated (8)
+
+# Технические характеристики
+- adjustable (376)
+- reversible (35)
+- stretch (33)
+- lightweight (23)
+- packable (6)
+- windproof (12) 
