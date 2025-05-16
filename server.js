@@ -32,9 +32,14 @@ app.get("/api/products", async (req, res) => {
         // Build filter object
         const filter = {};
         
-        // Search by name
+        // Search by multiple fields
         if (req.query.search) {
-            filter['info.name'] = { $regex: req.query.search, $options: 'i' };
+            const searchFields = req.query.searchFields ? req.query.searchFields.split(',') : ['info.name'];
+            const searchConditions = searchFields.map(field => {
+                const fieldPath = field.includes('.') ? field : `info.${field}`;
+                return { [fieldPath]: { $regex: req.query.search, $options: 'i' } };
+            });
+            filter.$or = searchConditions;
         }
 
         // Filter by color

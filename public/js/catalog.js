@@ -235,7 +235,12 @@ function buildQueryString() {
     const params = new URLSearchParams();
     
     // Добавляем базовые фильтры
-    if (currentFilters.search) params.append('search', currentFilters.search);
+    if (currentFilters.search) {
+        // Добавляем параметр search для поиска по всем полям
+        params.append('search', currentFilters.search);
+        // Добавляем параметр searchFields для указания полей поиска
+        params.append('searchFields', 'name,subtitle,category,keywords,description');
+    }
     if (currentFilters.minPrice) params.append('minPrice', currentFilters.minPrice);
     if (currentFilters.maxPrice) params.append('maxPrice', currentFilters.maxPrice);
     if (currentFilters.color) params.append('color', currentFilters.color);
@@ -406,6 +411,21 @@ function syncFilterForms(sourceFormId, targetFormId) {
 document.addEventListener('DOMContentLoaded', () => {
     // Загружаем первую страницу товаров
     loadProducts(1);
+    
+    // Добавляем обработчик для поискового input'а
+    const searchInput = document.getElementById('search-sidebar');
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchValue = e.target.value.trim();
+                currentFilters.search = searchValue;
+                currentPage = 1;
+                loadProducts(1);
+            }, 500); // Задержка 500мс для предотвращения частых запросов
+        });
+    }
     
     // Обработчик кнопки переключения фильтров
     const filterToggle = document.getElementById('filterToggle');
