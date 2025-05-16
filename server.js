@@ -20,44 +20,11 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Test route to create a product
-app.post("/api/test-product", async (req, res) => {
-    try {
-        const testProduct = new Product({
-            info: {
-                name: "Тестовый товар",
-                subtitle: "Подзаголовок тестового товара",
-                discription: "Описание тестового товара",
-                color: {
-                    labelColor: "Красный",
-                    hex: "#ff0000",
-                    colorDescription: "Красный"
-                }
-            },
-            imageData: {
-                imgMain: "https://via.placeholder.com/300x200",
-                portraitURL: "https://via.placeholder.com/300x200",
-                squarishURL: "https://via.placeholder.com/300x200"
-            },
-            price: {
-                self: {
-                    UAH: {
-                        currentPrice: 999
-                    }
-                }
-            }
-        });
-        await testProduct.save();
-        res.json({ message: "Test product created", product: testProduct });
-    } catch (error) {
-        console.error('Error creating test product:', error);
-        res.status(500).json({ message: error.message });
-    }
-});
-
 // API endpoint to get all products
 app.get("/api/products", async (req, res) => {
     try {
+        console.log('Received request with query:', req.query);
+        
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 12;
         const skip = (page - 1) * limit;
@@ -86,19 +53,43 @@ app.get("/api/products", async (req, res) => {
             }
         }
 
-        console.log('Filter:', JSON.stringify(filter, null, 2));
+        // Filter by keywords
+        if (req.query.keywords) {
+            // Преобразуем строку ключевых слов в массив
+            const keywords = Array.isArray(req.query.keywords) 
+                ? req.query.keywords 
+                : [req.query.keywords];
+            
+            console.log('Processing keywords:', keywords);
+            
+            // Создаем массив условий для поиска по ключевым словам в subtitle
+            const keywordConditions = keywords.map(keyword => ({
+                'info.subtitle': { $regex: keyword, $options: 'i' }
+            }));
+            
+            // Добавляем условия в фильтр
+            if (keywordConditions.length > 0) {
+                filter.$and = keywordConditions;
+            }
+        }
+
+        console.log('Final filter:', JSON.stringify(filter, null, 2));
 
         // Get products with pagination
+        console.log('Fetching products with skip:', skip, 'limit:', limit);
         const products = await Product.find(filter)
             .skip(skip)
             .limit(limit)
             .lean();
+        console.log('Found products:', products.length);
 
         // Get total count for pagination
         const total = await Product.countDocuments(filter);
+        console.log('Total products matching filter:', total);
 
         // Get all unique colors from database
         const colors = await Product.distinct('info.color.labelColor');
+        console.log('Available colors:', colors);
 
         console.log(`Found ${products.length} products on page ${page} of ${Math.ceil(total / limit)}`);
 
@@ -116,6 +107,7 @@ app.get("/api/products", async (req, res) => {
         });
     } catch (error) {
         console.error('Error in /api/products:', error);
+        console.error('Error stack:', error.stack);
         res.status(500).json({ 
             message: 'Ошибка при загрузке товаров',
             error: error.message 

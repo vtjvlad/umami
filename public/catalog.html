@@ -4,301 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог товаров</title>
+    <!-- Подключение стилей Bootstrap и Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --light-bg: #f8f9fa;
-            --border-color: #e9ecef;
-        }
-
-        body {
-            background-color: #f5f6fa;
-            color: var(--primary-color);
-        }
-
-        .navbar {
-            background-color: var(--primary-color) !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            color: white !important;
-            font-weight: 600;
-            font-size: 1.5rem;
-        }
-
-        .catalog-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .filter-panel {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .filter-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .filter-group label {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .color-option {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 5px;
-            transition: background-color 0.2s;
-        }
-
-        .color-option:hover {
-            background-color: var(--light-bg);
-        }
-
-        .color-option input[type="radio"] {
-            margin-right: 0.75rem;
-        }
-
-        .color-dot {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .price-range {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .price-range input {
-            width: 120px;
-            padding: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-        }
-
-        .product-card {
-            background: white;
-            border: none;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            height: 100%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .product-image {
-            height: 250px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-        }
-
-        .card-text {
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-color);
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .btn-primary:hover {
-            background-color: #2980b9;
-        }
-
-        .btn-secondary {
-            background-color: #95a5a6;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 500;
-        }
-
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .pagination {
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .page-link {
-            color: var(--accent-color);
-            border: none;
-            padding: 0.5rem 1rem;
-            margin: 0 0.25rem;
-            border-radius: 5px;
-        }
-
-        .page-item.active .page-link {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-
-        .load-more {
-            display: none;
-            margin: 2rem auto;
-            padding: 0.75rem 2rem;
-            font-weight: 500;
-        }
-
-        .no-products {
-            text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .price-tag {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .search-input {
-            position: relative;
-        }
-
-        .search-input i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-        }
-
-        .search-input input {
-            padding-left: 2.5rem;
-        }
-
-        .dropdown-menu {
-            border: none;
-            border-radius: 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .dropdown-header {
-            color: var(--primary-color);
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-bottom: 2px solid var(--accent-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .dropdown-item {
-            color: var(--secondary-color);
-            padding: 0.5rem 1rem;
-            transition: all 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--light-bg);
-            color: var(--accent-color);
-            transform: translateX(5px);
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 500;
-            padding: 1rem 1.5rem !important;
-            transition: all 0.2s;
-        }
-
-        .nav-link:hover {
-            color: white !important;
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .navbar {
-            padding: 0;
-        }
-
-        .navbar-toggler {
-            border: none;
-            padding: 0.5rem;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: none;
-        }
-
-        @media (max-width: 991.98px) {
-            .dropdown-menu {
-                box-shadow: none;
-                border: none;
-            }
-            
-            .dropdown-header {
-                border-bottom: none;
-                padding-left: 0;
-            }
-            
-            .dropdown-item {
-                padding-left: 2rem;
-            }
-        }
-    </style>
+    <!-- Подключение пользовательских стилей -->
+    <link href="/css/catalog.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Навигационная панель -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
+            <!-- Логотип и название сайта -->
             <a class="navbar-brand" href="#">
                 <i class="fas fa-store me-2"></i>
                 Каталог товаров
             </a>
+            <!-- Кнопка мобильного меню -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMegaMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <!-- Основное меню -->
             <div class="collapse navbar-collapse" id="navbarMegaMenu">
                 <ul class="navbar-nav">
+                    <!-- Категория "Одежда и обувь" -->
                     <li class="nav-item dropdown position-static">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             Одежда и обувь
@@ -306,6 +34,7 @@
                         <div class="dropdown-menu w-100 mt-0">
                             <div class="container">
                                 <div class="row my-4">
+                                    <!-- Подкатегории -->
                                     <div class="col-md-3">
                                         <h6 class="dropdown-header">Верхняя одежда</h6>
                                         <a class="dropdown-item" href="#">Куртки</a>
@@ -426,6 +155,7 @@
         </div>
     </nav>
 
+    <!-- Заголовок каталога -->
     <div class="catalog-header">
         <div class="container">
             <h1 class="display-4 mb-3">Каталог товаров</h1>
@@ -433,10 +163,12 @@
         </div>
     </div>
 
+    <!-- Основной контент -->
     <div class="container">
-        <!-- Filter Panel -->
+        <!-- Панель фильтров -->
         <div class="filter-panel">
             <form id="filter-form" class="row g-3">
+                <!-- Поиск по названию -->
                 <div class="col-md-4">
                     <div class="filter-group">
                         <label class="form-label">Поиск</label>
@@ -447,6 +179,7 @@
                     </div>
                 </div>
                 
+                <!-- Фильтр по цене -->
                 <div class="col-md-4">
                     <div class="filter-group">
                         <label class="form-label">Цена</label>
@@ -458,15 +191,227 @@
                     </div>
                 </div>
 
+                <!-- Фильтр по цвету -->
                 <div class="col-md-4">
                     <div class="filter-group">
                         <label class="form-label">Цвет</label>
                         <div id="color-filters" class="color-filters">
-                            <!-- Color options will be added here -->
+                            <!-- Опции цветов будут добавлены динамически -->
                         </div>
                     </div>
                 </div>
 
+                <!-- Фильтр по ключевым словам -->
+                <div class="col-12">
+                    <div class="filter-group">
+                        <label class="form-label">Ключевые слова</label>
+                        <div class="keyword-filters">
+                            <!-- Для кого -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Для кого</h6>
+                                <div class="keyword-options">
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="men's"> Мужская одежда</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="women's"> Женская одежда</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="big kids"> Детская одежда</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="little kids"> Одежда для малышей</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="baby"> Для младенцев</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="toddler"> Для малышей</label>
+                                </div>
+                            </div>
+
+                            <!-- Одежда и обувь -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Одежда и обувь</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Верхняя одежда</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="jacket"> Куртки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hoodie"> Худи</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="pullover"> Свитшоты</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sweatshirt"> Свитшоты</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fleece"> Флис</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="windshirt"> Ветровки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="windrunner"> Ветровки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="anorak"> Анораки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="parka"> Парки</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Футболки и топы</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="t-shirt"> Футболки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="long-sleeve"> Лонгсливы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="short-sleeve"> Короткий рукав</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tank"> Топы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sleeveless"> Без рукавов</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="polo"> Поло</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="henley"> Хенли</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Штаны и брюки</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="pants"> Брюки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="shorts"> Шорты</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="joggers"> Джоггеры</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sweatpants"> Спортивные штаны</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cargo"> Карго</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="chino"> Чино</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="leggings"> Леггинсы</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Обувь</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="shoes"> Кроссовки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cleats"> Бутсы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="slides"> Сланцы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sandals"> Сандалии</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="flip-flops"> Шлепанцы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sneaker"> Сникерсы</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Аксессуары -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Аксессуары</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Головные уборы и аксессуары</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hat"> Шапки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cap"> Кепки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="beanie"> Бини</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sunglasses"> Солнечные очки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="gloves"> Перчатки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="scarf"> Шарфы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="belt"> Ремни</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="socks"> Носки</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Сумки и рюкзаки</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="bag"> Сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="backpack"> Рюкзаки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="duffel"> Спортивные сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tote"> Шопперы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fanny"> Поясные сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="waistpack"> Поясные сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="crossbody"> Кроссбоди</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Спортивные категории -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Спортивные категории</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Спортивная одежда</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="dri-fit"> Dri-Fit</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="training"> Тренировочная</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="workout"> Для тренировок</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fitness"> Фитнес</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="performance"> Профессиональная</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sportswear"> Спортивная</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Командные виды спорта</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="basketball"> Баскетбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="football"> Футбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="soccer"> Соккер</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="baseball/softball"> Бейсбол/Софтбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="volleyball"> Волейбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hockey"> Хоккей</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="rugby"> Регби</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Индивидуальные виды спорта</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tennis"> Теннис</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="golf"> Гольф</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="running"> Бег</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="training"> Тренировки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="yoga"> Йога</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="gymnastics"> Гимнастика</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Лиги и соревнования</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nba"> NBA</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nfl"> NFL</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="mlb"> MLB</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nwsl"> NWSL</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="wnba"> WNBA</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="college"> Колледж</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Стили и особенности -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Стили и особенности</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Размерные характеристики</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="plus size"> Plus Size</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="oversized"> Oversized</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="over-oversized"> Over-Oversized</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="slim"> Slim Fit</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="wide"> Wide Fit</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="extended size"> Extended Size</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Фасоны</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="crew"> Круглый вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="crew-neck"> Круглый вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="v-neck"> V-образный вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="high-neck"> Высокий вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="mock-neck"> Воротник-стойка</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="racerback"> Рейсбек</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Материалы и текстуры</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="terry"> Махровая ткань</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="knit"> Трикотаж</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="mesh"> Сетка</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fleece"> Флис</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cotton"> Хлопок</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nylon"> Нейлон</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="leather"> Кожа</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Особенности дизайна</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="graphic"> Графика</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="printed"> Принт</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="striped"> Полоски</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="plaid"> Клетка</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="floral"> Цветочный</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="colorblocked"> Цветовые блоки</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Сезонные категории -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Сезонные категории</h6>
+                                <div class="keyword-options">
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="winterized"> Зимняя</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="waterproof"> Водонепроницаемая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="water-repellent"> Водоотталкивающая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="quick-dry"> Быстросохнущая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="insulated"> Утепленная</label>
+                                </div>
+                            </div>
+
+                            <!-- Технические характеристики -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Технические характеристики</h6>
+                                <div class="keyword-options">
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="adjustable"> Регулируемая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="reversible"> Двусторонняя</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="stretch"> Растягивающаяся</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="lightweight"> Легкая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="packable"> Компактная</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="windproof"> Ветрозащитная</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопки управления фильтрами -->
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-filter me-2"></i>
@@ -480,16 +425,19 @@
             </form>
         </div>
 
+        <!-- Контейнер для товаров -->
         <div class="row" id="products-container">
-            <!-- Products will be loaded here dynamically -->
+            <!-- Товары будут добавлены динамически -->
         </div>
         
+        <!-- Индикатор загрузки -->
         <div class="loading-spinner" id="loading-spinner">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Загрузка...</span>
             </div>
         </div>
 
+        <!-- Кнопка "Загрузить еще" -->
         <div class="text-center">
             <button class="btn btn-primary load-more" id="load-more">
                 <i class="fas fa-plus me-2"></i>
@@ -497,272 +445,16 @@
             </button>
         </div>
 
+        <!-- Пагинация -->
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center" id="pagination">
-                <!-- Pagination will be added here -->
+                <!-- Элементы пагинации будут добавлены динамически -->
             </ul>
         </nav>
     </div>
 
+    <!-- Подключение скриптов -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        let currentPage = 1;
-        let totalPages = 1;
-        let isLoading = false;
-        let currentFilters = {
-            search: '',
-            minPrice: '',
-            maxPrice: '',
-            color: ''
-        };
-
-        function showLoading() {
-            document.getElementById('loading-spinner').style.display = 'block';
-            document.getElementById('load-more').style.display = 'none';
-            isLoading = true;
-        }
-
-        function hideLoading() {
-            document.getElementById('loading-spinner').style.display = 'none';
-            document.getElementById('load-more').style.display = 'block';
-            isLoading = false;
-        }
-
-        function createProductCard(product) {
-            const imageUrl = product.imageData?.imgMain || 
-                           product.imageData?.portraitURL || 
-                           product.imageData?.squarishURL || 
-                           'https://via.placeholder.com/300x200';
-            
-            const price = product.price?.self?.UAH?.currentPrice || 
-                        product.price?.origin?.currentPrice || 
-                        '0';
-            
-            const colorHex = product.info?.color?.hex || '#ffffff';
-            const colorLabel = product.info?.color?.labelColor || '';
-
-            return `
-                <div class="col-md-4 col-sm-6 mb-4">
-                    <div class="product-card">
-                        <img src="${imageUrl}" 
-                             class="product-image" 
-                             alt="${product.info?.name || 'Товар'}">
-                        <div class="card-body">
-                            <h5 class="card-title">${product.info?.name || 'Без названия'}</h5>
-                            ${product.info?.subtitle ? `
-                                <p class="card-text text-muted">${product.info.subtitle}</p>
-                            ` : ''}
-                            ${product.info?.discription ? `
-                                <p class="card-text">${product.info.discription}</p>
-                            ` : ''}
-                            ${colorLabel ? `
-                                <p class="card-text">
-                                    <span class="color-dot" style="background-color: ${colorHex}"></span>
-                                    ${colorLabel}
-                                </p>
-                            ` : ''}
-                            <p class="price-tag mb-3">
-                                ${price} ₴
-                            </p>
-                            <button class="btn btn-primary w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>
-                                Подробнее
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function updatePagination(currentPage, totalPages) {
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = '';
-
-            // Previous button
-            pagination.innerHTML += `
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${currentPage - 1}">Предыдущая</a>
-                </li>
-            `;
-
-            // Page numbers
-            for (let i = 1; i <= totalPages; i++) {
-                if (
-                    i === 1 || 
-                    i === totalPages || 
-                    (i >= currentPage - 2 && i <= currentPage + 2)
-                ) {
-                    pagination.innerHTML += `
-                        <li class="page-item ${i === currentPage ? 'active' : ''}">
-                            <a class="page-link" href="#" data-page="${i}">${i}</a>
-                        </li>
-                    `;
-                } else if (
-                    i === currentPage - 3 || 
-                    i === currentPage + 3
-                ) {
-                    pagination.innerHTML += `
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
-                    `;
-                }
-            }
-
-            // Next button
-            pagination.innerHTML += `
-                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${currentPage + 1}">Следующая</a>
-                </li>
-            `;
-
-            // Add click handlers
-            pagination.querySelectorAll('.page-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const page = parseInt(e.target.dataset.page);
-                    if (page && page !== currentPage) {
-                        loadProducts(page);
-                    }
-                });
-            });
-        }
-
-        function updateColorFilters(colors) {
-            const container = document.getElementById('color-filters');
-            const currentColor = document.querySelector('input[name="color"]:checked')?.value || '';
-            
-            container.innerHTML = `
-                <div class="color-option">
-                    <input type="radio" name="color" id="color-all" value="" ${!currentColor ? 'checked' : ''}>
-                    <label for="color-all">Все цвета</label>
-                </div>
-            `;
-            
-            colors.forEach(color => {
-                container.innerHTML += `
-                    <div class="color-option">
-                        <input type="radio" name="color" id="color-${color}" value="${color}" ${color === currentColor ? 'checked' : ''}>
-                        <label for="color-${color}">${color}</label>
-                    </div>
-                `;
-            });
-        }
-
-        function buildQueryString() {
-            const params = new URLSearchParams();
-            
-            if (currentFilters.search) params.append('search', currentFilters.search);
-            if (currentFilters.minPrice) params.append('minPrice', currentFilters.minPrice);
-            if (currentFilters.maxPrice) params.append('maxPrice', currentFilters.maxPrice);
-            if (currentFilters.color) params.append('color', currentFilters.color);
-            
-            return params.toString();
-        }
-
-        async function loadProducts(page = 1) {
-            if (isLoading) return;
-            
-            showLoading();
-            try {
-                const queryString = buildQueryString();
-                console.log('Loading products with query:', queryString);
-                
-                const response = await fetch(`/api/products?page=${page}&limit=12&${queryString}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Received data:', data);
-                
-                const container = document.getElementById('products-container');
-                if (page === 1) {
-                    container.innerHTML = '';
-                }
-                
-                if (!data.products || data.products.length === 0) {
-                    container.innerHTML = `
-                        <div class="col-12 text-center">
-                            <p class="text-muted">Товары не найдены</p>
-                        </div>
-                    `;
-                    document.getElementById('load-more').style.display = 'none';
-                    document.getElementById('pagination').style.display = 'none';
-                } else {
-                    data.products.forEach(product => {
-                        container.innerHTML += createProductCard(product);
-                    });
-
-                    currentPage = data.pagination.currentPage;
-                    totalPages = data.pagination.totalPages;
-
-                    updatePagination(currentPage, totalPages);
-                    
-                    // Update color filters if it's the first page
-                    if (page === 1 && data.filters?.colors) {
-                        updateColorFilters(data.filters.colors);
-                    }
-                    
-                    // Show/hide load more button
-                    document.getElementById('load-more').style.display = 
-                        currentPage < totalPages ? 'block' : 'none';
-                    document.getElementById('pagination').style.display = 'block';
-                }
-
-            } catch (error) {
-                console.error('Error loading products:', error);
-                document.getElementById('products-container').innerHTML = `
-                    <div class="col-12 text-center">
-                        <p class="text-danger">Ошибка загрузки товаров. Пожалуйста, попробуйте позже.</p>
-                        <button class="btn btn-primary mt-3" onclick="loadProducts(1)">Попробовать снова</button>
-                    </div>
-                `;
-                document.getElementById('load-more').style.display = 'none';
-                document.getElementById('pagination').style.display = 'none';
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProducts(1);
-            
-            document.getElementById('load-more').addEventListener('click', () => {
-                if (!isLoading) {
-                    loadProducts(currentPage + 1);
-                }
-            });
-
-            // Filter form submission
-            document.getElementById('filter-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (isLoading) return;
-                
-                currentFilters = {
-                    search: document.getElementById('search').value.trim(),
-                    minPrice: document.getElementById('minPrice').value.trim(),
-                    maxPrice: document.getElementById('maxPrice').value.trim(),
-                    color: document.querySelector('input[name="color"]:checked')?.value || ''
-                };
-                loadProducts(1);
-            });
-
-            // Reset filters
-            document.getElementById('reset-filters').addEventListener('click', () => {
-                if (isLoading) return;
-                
-                document.getElementById('filter-form').reset();
-                currentFilters = {
-                    search: '',
-                    minPrice: '',
-                    maxPrice: '',
-                    color: ''
-                };
-                loadProducts(1);
-            });
-        });
-    </script>
+    <script src="/js/catalog.js"></script>
 </body>
 </html> 
