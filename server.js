@@ -75,9 +75,46 @@ app.get("/api/products", async (req, res) => {
 
         console.log('Final filter:', JSON.stringify(filter, null, 2));
 
-        // Get products with pagination
+        // Set up sort options
+        let sortOptions = {};
+        
+        // Handle sort parameter
+        if (req.query.sort) {
+            switch (req.query.sort) {
+                case 'price_asc':
+                    sortOptions = { 'price.self.UAH.currentPrice': 1 };
+                    break;
+                case 'price_desc':
+                    sortOptions = { 'price.self.UAH.currentPrice': -1 };
+                    break;
+                case 'newest':
+                    // Условно считаем, что id с большим значением - это более новые товары
+                    sortOptions = { 'id': -1 };
+                    break;
+                case 'discount':
+                    // Сортируем по размеру скидки (разница между исходной и текущей ценой)
+                    // Для товаров без скидки разница будет 0, поэтому они будут в конце
+                    sortOptions = { 
+                        $expr: { 
+                            $subtract: [
+                                { $ifNull: ['$price.self.UAH.fullPrice', 0] }, 
+                                { $ifNull: ['$price.self.UAH.currentPrice', 0] }
+                            ] 
+                        }
+                    };
+                    break;
+                default:
+                    // По умолчанию без сортировки (или можно добавить вашу логику "по популярности")
+                    sortOptions = {};
+            }
+        }
+        
+        console.log('Using sort options:', sortOptions);
+
+        // Get products with pagination and sorting
         console.log('Fetching products with skip:', skip, 'limit:', limit);
         const products = await Product.find(filter)
+            .sort(sortOptions)
             .skip(skip)
             .limit(limit)
             .lean();
@@ -118,6 +155,11 @@ app.get("/api/products", async (req, res) => {
 // Catalog page route
 app.get("/catalog", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "catalog.html"));
+});
+
+// Catalog page route
+app.get("/catalog-ex", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "catalog-ex.html"));
 });
 
 // Error handling middleware

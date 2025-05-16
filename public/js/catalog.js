@@ -7,14 +7,15 @@ let currentFilters = {    // Текущие активные фильтры
     minPrice: '',        // Минимальная цена
     maxPrice: '',        // Максимальная цена
     color: '',           // Выбранный цвет
-    keywords: []         // Выбранные ключевые слова
+    keywords: [],        // Выбранные ключевые слова
+    sort: 'popular'      // Сортировка (по умолчанию по популярности)
 };
 
 /**
  * Показывает индикатор загрузки и скрывает кнопку "Загрузить еще"
  */
 function showLoading() {
-    document.getElementById('loading-spinner').style.display = 'block';
+    document.getElementById('loading-spinner').style.display = 'flex';
     document.getElementById('load-more').style.display = 'none';
     isLoading = true;
 }
@@ -29,7 +30,7 @@ function hideLoading() {
 }
 
 /**
- * Создает HTML-разметку карточки товара
+ * Создает HTML-разметку карточки товара в премиум дизайне
  * @param {Object} product - Объект с данными товара
  * @returns {string} HTML-разметка карточки товара
  */
@@ -38,45 +39,54 @@ function createProductCard(product) {
     const imageUrl = product.imageData?.imgMain || 
                    product.imageData?.portraitURL || 
                    product.imageData?.squarishURL || 
-                   'https://via.placeholder.com/300x200';
+                   'https://via.placeholder.com/300x400';
     
     // Получаем цену товара
     const price = product.price?.self?.UAH?.currentPrice || 
                 product.price?.origin?.currentPrice || 
                 '0';
+                
+    // Получаем скидку и оригинальную цену, если есть
+    const hasDiscount = product.price?.self?.UAH?.currentPrice < product.price?.self?.UAH?.fullPrice;
+    const originalPrice = product.price?.self?.UAH?.fullPrice || null;
+    const discountPercent = hasDiscount ? 
+        Math.round(100 - (product.price.self.UAH.currentPrice / product.price.self.UAH.fullPrice * 100)) : null;
     
     // Получаем информацию о цвете
     const colorHex = product.info?.color?.hex || '#ffffff';
     const colorLabel = product.info?.color?.labelColor || '';
+    
+    // Определяем, является ли товар новинкой (условно - товар с id > 1000 считаем новинкой)
+    const isNew = parseInt(product.id) > 1000;
+    
+    // Получаем категорию
+    const category = product.info?.subtitle?.split(' ')[0] || '';
 
-    // Формируем HTML-разметку карточки
+    // Формируем HTML-разметку карточки в премиум дизайне
     return `
         <div class="col-md-4 col-sm-6 mb-4">
             <div class="product-card">
-                <img src="${imageUrl}" 
-                     class="product-image" 
-                     alt="${product.info?.name || 'Товар'}">
-                <div class="card-body">
-                    <h5 class="card-title">${product.info?.name || 'Без названия'}</h5>
-                    ${product.info?.subtitle ? `
-                        <p class="card-text text-muted">${product.info.subtitle}</p>
-                    ` : ''}
-                    ${product.info?.discription ? `
-                        <p class="card-text">${product.info.discription}</p>
-                    ` : ''}
+                <div class="product-image-container">
+                    ${hasDiscount ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}
+                    ${isNew ? `<div class="new-badge">Новинка</div>` : ''}
+                    <img src="${imageUrl}" class="product-image" alt="${product.info?.name || 'Товар'}">
+                </div>
+                <div class="product-body">
+                    ${category ? `<div class="product-category">${category}</div>` : ''}
+                    <h5 class="product-title">${product.info?.name || 'Без названия'}</h5>
+                    <p class='product-subtitle'>${product.info?.subtitle || 'Без описания'}</p>
+                    
+                    <div class="price-container">
+                        <span class="product-price">${price} ₴</span>
+                        ${hasDiscount && originalPrice ? `<span class="product-original-price">${originalPrice} ₴</span>` : ''}
+                    </div>
+                    
                     ${colorLabel ? `
-                        <p class="card-text">
-                            <span class="color-dot" style="background-color: ${colorHex}"></span>
-                            ${colorLabel}
-                        </p>
+                        <div class="product-colors">
+                            <span class="product-color" style="background-color: ${colorHex}"></span>
+                            ${colorLabel && colorLabel !== 'null' ? `<small class="ms-2">${colorLabel}</small>` : ''}
+                        </div>
                     ` : ''}
-                    <p class="price-tag mb-3">
-                        ${price} ₴
-                    </p>
-                    <button class="btn btn-primary w-100">
-                        <i class="fas fa-shopping-cart me-2"></i>
-                        Подробнее
-                    </button>
                 </div>
             </div>
         </div>
@@ -95,7 +105,9 @@ function updatePagination(currentPage, totalPages) {
     // Добавляем кнопку "Предыдущая"
     pagination.innerHTML += `
         <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-            <a class="page-link" href="#" data-page="${currentPage - 1}">Предыдущая</a>
+            <a class="page-link" href="#" data-page="${currentPage - 1}" aria-label="Предыдущая">
+                <i class="fas fa-chevron-left"></i>
+            </a>
         </li>
     `;
 
@@ -128,7 +140,9 @@ function updatePagination(currentPage, totalPages) {
     // Добавляем кнопку "Следующая"
     pagination.innerHTML += `
         <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-            <a class="page-link" href="#" data-page="${currentPage + 1}">Следующая</a>
+            <a class="page-link" href="#" data-page="${currentPage + 1}" aria-label="Следующая">
+                <i class="fas fa-chevron-right"></i>
+            </a>
         </li>
     `;
 
@@ -136,9 +150,11 @@ function updatePagination(currentPage, totalPages) {
     pagination.querySelectorAll('.page-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const page = parseInt(e.target.dataset.page);
+            const page = parseInt(e.target.dataset.page || e.target.closest('.page-link').dataset.page);
             if (page && page !== currentPage) {
                 loadProducts(page);
+                // Прокручиваем к верху каталога при переходе на новую страницу
+                document.querySelector('.catalog-header').scrollIntoView({behavior: 'smooth'});
             }
         });
     });
@@ -149,25 +165,65 @@ function updatePagination(currentPage, totalPages) {
  * @param {Array} colors - Массив доступных цветов
  */
 function updateColorFilters(colors) {
-    const container = document.getElementById('color-filters');
-    const currentColor = document.querySelector('input[name="color"]:checked')?.value || '';
+    const containers = [
+        document.getElementById('color-filters'),
+        document.getElementById('color-filters-sidebar')
+    ];
     
-    // Добавляем опцию "Все цвета"
-    container.innerHTML = `
-        <div class="color-option">
-            <input type="radio" name="color" id="color-all" value="" ${!currentColor ? 'checked' : ''}>
-            <label for="color-all">Все цвета</label>
-        </div>
-    `;
+    // Определяем цвета для отображения
+    const colorMap = {
+        'white': '#ffffff',
+        'black': '#000000',
+        'grey': '#808080',
+        'red': '#d32f2f',
+        'blue': '#1976d2',
+        'green': '#388e3c',
+        'purple': '#7b1fa2',
+        'pink': '#e91e63',
+        'yellow': '#fbc02d',
+        'orange': '#f57c00',
+        'brown': '#795548'
+    };
     
-    // Добавляем опции для каждого цвета
-    colors.forEach(color => {
-        container.innerHTML += `
-            <div class="color-option">
-                <input type="radio" name="color" id="color-${color}" value="${color}" ${color === currentColor ? 'checked' : ''}>
-                <label for="color-${color}">${color}</label>
-            </div>
-        `;
+    // Обновляем оба контейнера цветов (для мобильных и десктопа)
+    containers.forEach(container => {
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        // Создаем элементы для каждого цвета
+        colors.forEach(color => {
+            // Преобразуем название цвета в нижний регистр для поиска по colorMap
+            const colorName = color.toLowerCase();
+            const hexColor = colorMap[colorName] || '#cccccc'; // Используем серый по умолчанию
+            
+            // Создаем элемент цвета
+            const colorElement = document.createElement('div');
+            colorElement.className = `color-option ${color === currentFilters.color ? 'selected' : ''}`;
+            colorElement.setAttribute('data-color', color);
+            colorElement.style.backgroundColor = hexColor;
+            colorElement.title = color;
+            
+            // Добавляем обработчик нажатия
+            colorElement.addEventListener('click', () => {
+                // Если уже выбран этот цвет, то снимаем выбор
+                if (currentFilters.color === color) {
+                    currentFilters.color = '';
+                    document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+                } else {
+                    // Иначе выбираем новый цвет
+                    currentFilters.color = color;
+                    document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+                    document.querySelectorAll(`.color-option[data-color="${color}"]`).forEach(el => el.classList.add('selected'));
+                }
+                
+                // Загружаем товары с новым фильтром
+                currentPage = 1;
+                loadProducts(1);
+            });
+            
+            container.appendChild(colorElement);
+        });
     });
 }
 
@@ -189,6 +245,11 @@ function buildQueryString() {
         currentFilters.keywords.forEach(keyword => {
             params.append('keywords', keyword);
         });
+    }
+    
+    // Добавляем параметр сортировки
+    if (currentFilters.sort) {
+        params.append('sort', currentFilters.sort);
     }
     
     return params.toString();
@@ -220,11 +281,16 @@ async function loadProducts(page = 1) {
             container.innerHTML = '';
         }
         
+        // Обновляем заголовок результатов
+        updateResultCount(data.pagination?.totalProducts || 0);
+        
         // Обрабатываем случай, когда товары не найдены
         if (!data.products || data.products.length === 0) {
             container.innerHTML = `
-                <div class="col-12 text-center">
-                    <p class="text-muted">Товары не найдены</p>
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                    <h3 class="fw-light text-muted">Товары не найдены</h3>
+                    <p class="text-muted">Попробуйте изменить параметры поиска</p>
                 </div>
             `;
             document.getElementById('load-more').style.display = 'none';
@@ -255,15 +321,84 @@ async function loadProducts(page = 1) {
         console.error('Error loading products:', error);
         // Показываем сообщение об ошибке
         document.getElementById('products-container').innerHTML = `
-            <div class="col-12 text-center">
-                <p class="text-danger">Ошибка загрузки товаров. Пожалуйста, попробуйте позже.</p>
-                <button class="btn btn-primary mt-3" onclick="loadProducts(1)">Попробовать снова</button>
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-exclamation-circle fa-3x mb-3 text-danger"></i>
+                <h3 class="fw-light">Ошибка загрузки товаров</h3>
+                <p class="text-muted mb-4">Пожалуйста, попробуйте позже</p>
+                <button class="btn btn-primary" onclick="loadProducts(1)">
+                    <i class="fas fa-sync-alt me-2"></i>
+                    Попробовать снова
+                </button>
             </div>
         `;
         document.getElementById('load-more').style.display = 'none';
         document.getElementById('pagination').style.display = 'none';
     } finally {
         hideLoading();
+    }
+}
+
+/**
+ * Обновляет счетчик результатов
+ * @param {number} count - Количество найденных товаров
+ */
+function updateResultCount(count) {
+    const resultsCount = document.querySelector('.results-count h4');
+    if (resultsCount) {
+        if (count === 0) {
+            resultsCount.textContent = 'Товары не найдены';
+        } else {
+            resultsCount.textContent = `Найдено товаров: ${count}`;
+        }
+    }
+}
+
+/**
+ * Синхронизирует значения полей между формами фильтров (мобильной и десктопной)
+ * @param {string} sourceFormId - ID исходной формы
+ * @param {string} targetFormId - ID целевой формы
+ */
+function syncFilterForms(sourceFormId, targetFormId) {
+    const sourceForm = document.getElementById(sourceFormId);
+    const targetForm = document.getElementById(targetFormId);
+    
+    if (!sourceForm || !targetForm) return;
+    
+    // Синхронизируем поля поиска
+    const searchSource = sourceForm.querySelector('input[id^="search"]');
+    const searchTarget = targetForm.querySelector('input[id^="search"]');
+    if (searchSource && searchTarget) {
+        searchTarget.value = searchSource.value;
+    }
+    
+    // Синхронизируем поля цены
+    const minPriceSource = sourceForm.querySelector('input[id^="minPrice"]');
+    const minPriceTarget = targetForm.querySelector('input[id^="minPrice"]');
+    if (minPriceSource && minPriceTarget) {
+        minPriceTarget.value = minPriceSource.value;
+    }
+    
+    const maxPriceSource = sourceForm.querySelector('input[id^="maxPrice"]');
+    const maxPriceTarget = targetForm.querySelector('input[id^="maxPrice"]');
+    if (maxPriceSource && maxPriceTarget) {
+        maxPriceTarget.value = maxPriceSource.value;
+    }
+    
+    // Синхронизируем чекбоксы для ключевых слов
+    const keywordsSource = sourceForm.querySelectorAll('input[name="keywords"]:checked');
+    if (keywordsSource.length > 0) {
+        // Сначала снимаем все чекбоксы в целевой форме
+        targetForm.querySelectorAll('input[name="keywords"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        // Затем устанавливаем нужные
+        keywordsSource.forEach(checkbox => {
+            const targetCheckbox = targetForm.querySelector(`input[name="keywords"][value="${checkbox.value}"]`);
+            if (targetCheckbox) {
+                targetCheckbox.checked = true;
+            }
+        });
     }
 }
 
@@ -279,56 +414,194 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Обработчик отправки формы фильтров
-    document.getElementById('filter-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (isLoading) return;
-        
-        // Собираем значения фильтров
-        currentFilters = {
-            search: document.getElementById('search').value.trim(),
-            minPrice: document.getElementById('minPrice').value.trim(),
-            maxPrice: document.getElementById('maxPrice').value.trim(),
-            color: document.querySelector('input[name="color"]:checked')?.value || '',
-            keywords: Array.from(document.querySelectorAll('input[name="keywords"]:checked')).map(input => input.value)
-        };
-
-        // Сбрасываем страницу на первую при применении фильтров
-        currentPage = 1;
-        loadProducts(1);
-    });
-
-    // Обработчик сброса фильтров
-    document.getElementById('reset-filters').addEventListener('click', () => {
-        if (isLoading) return;
-        
-        // Сбрасываем форму
-        document.getElementById('filter-form').reset();
-        
-        // Сбрасываем текущие фильтры
-        currentFilters = {
-            search: '',
-            minPrice: '',
-            maxPrice: '',
-            color: '',
-            keywords: []
-        };
-
-        // Сбрасываем страницу на первую
-        currentPage = 1;
-        loadProducts(1);
-    });
-
-    // Добавляем обработчики для чекбоксов ключевых слов
-    document.querySelectorAll('input[name="keywords"]').forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            // Обновляем список выбранных ключевых слов
-            currentFilters.keywords = Array.from(document.querySelectorAll('input[name="keywords"]:checked'))
-                .map(input => input.value);
+    // Обработчик отправки формы мобильных фильтров
+    const mobileFilterForm = document.getElementById('filter-form');
+    if (mobileFilterForm) {
+        mobileFilterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isLoading) return;
             
-            // Перезагружаем товары с новыми фильтрами
+            // Собираем значения фильтров
+            currentFilters = {
+                search: document.getElementById('search').value.trim(),
+                minPrice: document.getElementById('minPrice').value.trim(),
+                maxPrice: document.getElementById('maxPrice').value.trim(),
+                color: currentFilters.color, // Сохраняем текущий выбранный цвет
+                keywords: Array.from(mobileFilterForm.querySelectorAll('input[name="keywords"]:checked')).map(input => input.value),
+                sort: currentFilters.sort
+            };
+            
+            // Синхронизируем значения с боковой формой фильтров
+            syncFilterForms('filter-form', 'filter-form-sidebar');
+            
+            // Закрываем offcanvas меню на мобильных
+            const offcanvasElement = document.getElementById('filtersOffcanvas');
+            if (offcanvasElement) {
+                const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+                if (offcanvas) {
+                    offcanvas.hide();
+                }
+            }
+
+            // Сбрасываем страницу на первую при применении фильтров
             currentPage = 1;
             loadProducts(1);
+        });
+    }
+    
+    // Обработчик отправки формы боковых фильтров (десктоп)
+    const sidebarFilterForm = document.getElementById('filter-form-sidebar');
+    if (sidebarFilterForm) {
+        sidebarFilterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isLoading) return;
+            
+            // Собираем значения фильтров
+            currentFilters = {
+                search: document.getElementById('search-sidebar').value.trim(),
+                minPrice: document.getElementById('minPrice-sidebar').value.trim(),
+                maxPrice: document.getElementById('maxPrice-sidebar').value.trim(),
+                color: currentFilters.color, // Сохраняем текущий выбранный цвет
+                keywords: Array.from(sidebarFilterForm.querySelectorAll('input[name="keywords"]:checked')).map(input => input.value),
+                sort: currentFilters.sort
+            };
+            
+            // Синхронизируем значения с мобильной формой фильтров
+            syncFilterForms('filter-form-sidebar', 'filter-form');
+
+            // Сбрасываем страницу на первую при применении фильтров
+            currentPage = 1;
+            loadProducts(1);
+        });
+    }
+
+    // Обработчик сброса фильтров для мобильной версии
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', () => {
+            if (isLoading) return;
+            
+            // Сбрасываем мобильную форму
+            document.getElementById('filter-form').reset();
+            
+            // Сбрасываем текущие фильтры
+            currentFilters = {
+                search: '',
+                minPrice: '',
+                maxPrice: '',
+                color: '',
+                keywords: [],
+                sort: 'popular' // Возвращаем сортировку по умолчанию
+            };
+            
+            // Сбрасываем выбранный цвет в UI
+            document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+            
+            // Сбрасываем боковую форму
+            if (document.getElementById('filter-form-sidebar')) {
+                document.getElementById('filter-form-sidebar').reset();
+            }
+            
+            // Сбрасываем сортировку
+            const sortSelect = document.querySelector('.sort-options select');
+            if (sortSelect) {
+                sortSelect.selectedIndex = 0;
+            }
+
+            // Сбрасываем страницу на первую
+            currentPage = 1;
+            loadProducts(1);
+        });
+    }
+    
+    // Обработчик сброса фильтров для десктопной версии
+    const resetFiltersSidebarBtn = document.getElementById('reset-filters-sidebar');
+    if (resetFiltersSidebarBtn) {
+        resetFiltersSidebarBtn.addEventListener('click', () => {
+            if (isLoading) return;
+            
+            // Сбрасываем боковую форму
+            document.getElementById('filter-form-sidebar').reset();
+            
+            // Сбрасываем текущие фильтры
+            currentFilters = {
+                search: '',
+                minPrice: '',
+                maxPrice: '',
+                color: '',
+                keywords: [],
+                sort: 'popular' // Возвращаем сортировку по умолчанию
+            };
+            
+            // Сбрасываем выбранный цвет в UI
+            document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+            
+            // Сбрасываем мобильную форму
+            if (document.getElementById('filter-form')) {
+                document.getElementById('filter-form').reset();
+            }
+            
+            // Сбрасываем сортировку
+            const sortSelect = document.querySelector('.sort-options select');
+            if (sortSelect) {
+                sortSelect.selectedIndex = 0;
+            }
+
+            // Сбрасываем страницу на первую
+            currentPage = 1;
+            loadProducts(1);
+        });
+    }
+
+    // Обработчики для чекбоксов ключевых слов в мобильной форме
+    document.querySelectorAll('#filter-form input[name="keywords"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            // Обновляем соответствующий чекбокс в боковой форме
+            const sidebarCheckbox = document.querySelector(`#filter-form-sidebar input[name="keywords"][value="${checkbox.value}"]`);
+            if (sidebarCheckbox) {
+                sidebarCheckbox.checked = checkbox.checked;
+            }
+        });
+    });
+    
+    // Обработчики для чекбоксов ключевых слов в боковой форме
+    document.querySelectorAll('#filter-form-sidebar input[name="keywords"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            // Обновляем соответствующий чекбокс в мобильной форме
+            const mobileCheckbox = document.querySelector(`#filter-form input[name="keywords"][value="${checkbox.value}"]`);
+            if (mobileCheckbox) {
+                mobileCheckbox.checked = checkbox.checked;
+            }
+        });
+    });
+    
+    // Обработчик сортировки
+    const sortSelect = document.querySelector('.sort-options select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            // Обновляем параметр сортировки
+            const selectedIndex = sortSelect.selectedIndex;
+            const sortOptions = ['popular', 'price_asc', 'price_desc', 'newest', 'discount'];
+            currentFilters.sort = sortOptions[selectedIndex] || 'popular';
+            
+            // Загружаем товары с новой сортировкой
+            currentPage = 1;
+            loadProducts(1);
+        });
+    }
+    
+    // Добавляем анимацию прокрутки для плавной навигации
+    document.querySelectorAll('a.dropdown-item').forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Предотвращаем стандартное действие
+            e.preventDefault();
+            
+            // Закрываем меню
+            const dropdown = bootstrap.Dropdown.getInstance(link.closest('.dropdown').querySelector('.dropdown-toggle'));
+            if (dropdown) dropdown.hide();
+            
+            // Прокручиваем к каталогу
+            document.querySelector('.catalog-header').scrollIntoView({behavior: 'smooth'});
         });
     });
 }); 
