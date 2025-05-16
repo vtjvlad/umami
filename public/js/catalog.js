@@ -412,6 +412,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterSidebar = document.querySelector('.filter-sidebar');
     
     if (filterToggle && filterSidebar) {
+        const filterColumn = filterSidebar.closest('.col-lg-3');
+        const contentColumn = document.querySelector('.col-lg-9');
+        
         filterToggle.addEventListener('click', () => {
             if (window.innerWidth <= 992) {
                 // Мобильное поведение
@@ -420,6 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Десктопное поведение
                 filterSidebar.classList.toggle('hidden');
+                filterColumn.classList.toggle('hidden');
+                contentColumn.classList.toggle('expanded');
+                
                 // Обновляем текст кнопки
                 const buttonText = filterToggle.querySelector('i').nextSibling;
                 if (filterSidebar.classList.contains('hidden')) {
