@@ -2,6 +2,10 @@
 let currentPage = 1;      // Текущая страница
 let totalPages = 1;       // Общее количество страниц
 let isLoading = false;    // Флаг загрузки данных
+let priceRange = {        // Диапазон цен
+    min: 0,
+    max: 100000
+};
 let currentFilters = {    // Текущие активные фильтры
     search: '',           // Поисковый запрос
     minPrice: '',        // Минимальная цена
@@ -228,6 +232,52 @@ function updateColorFilters(colors) {
 }
 
 /**
+ * Обновляет диапазон цен в ползунках
+ * @param {number} min - Минимальная цена
+ * @param {number} max - Максимальная цена
+ */
+function updatePriceRange(min, max) {
+    // Округляем значения до ближайших сотен
+    const roundedMin = Math.floor(min / 100) * 100;
+    const roundedMax = Math.ceil(max / 100) * 100;
+    
+    // Обновляем глобальные значения
+    priceRange.min = roundedMin;
+    priceRange.max = roundedMax;
+    
+    // Обновляем ползунки
+    const sliders = [
+        document.getElementById('price-slider')?.noUiSlider,
+        document.getElementById('price-slider-mobile')?.noUiSlider
+    ];
+    
+    sliders.forEach(slider => {
+        if (slider) {
+            slider.updateOptions({
+                range: {
+                    'min': roundedMin,
+                    'max': roundedMax
+                }
+            });
+        }
+    });
+    
+    // Обновляем плейсхолдеры в полях ввода
+    const inputs = [
+        document.getElementById('minPrice-sidebar'),
+        document.getElementById('maxPrice-sidebar'),
+        document.getElementById('minPrice'),
+        document.getElementById('maxPrice')
+    ];
+    
+    inputs.forEach(input => {
+        if (input) {
+            input.placeholder = input.id.includes('min') ? `От ${roundedMin}` : `До ${roundedMax}`;
+        }
+    });
+}
+
+/**
  * Формирует строку запроса с параметрами фильтрации
  * @returns {string} Строка запроса
  */
@@ -312,8 +362,14 @@ async function loadProducts(page = 1) {
             updatePagination(currentPage, totalPages);
             
             // Обновляем фильтр цветов только для первой страницы
-            if (page === 1 && data.filters?.colors) {
-                updateColorFilters(data.filters.colors);
+            if (page === 1) {
+                if (data.filters?.colors) {
+                    updateColorFilters(data.filters.colors);
+                }
+                // Обновляем диапазон цен при первой загрузке
+                if (data.filters?.priceRange) {
+                    updatePriceRange(data.filters.priceRange.min, data.filters.priceRange.max);
+                }
             }
             
             // Показываем/скрываем кнопку "Загрузить еще"
@@ -409,6 +465,94 @@ function syncFilterForms(sourceFormId, targetFormId) {
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
+    // Инициализация ползунка цен для десктопной версии
+    const priceSlider = document.getElementById('price-slider');
+    if (priceSlider) {
+        noUiSlider.create(priceSlider, {
+            start: [priceRange.min, priceRange.max],
+            connect: true,
+            range: {
+                'min': priceRange.min,
+                'max': priceRange.max
+            },
+            step: 100
+        });
+
+        // Синхронизация значений ползунка с полями ввода
+        const minPriceInput = document.getElementById('minPrice-sidebar');
+        const maxPriceInput = document.getElementById('maxPrice-sidebar');
+
+        priceSlider.noUiSlider.on('update', function (values, handle) {
+            const value = Math.round(values[handle]);
+            if (handle === 0) {
+                minPriceInput.value = value;
+            } else {
+                maxPriceInput.value = value;
+            }
+        });
+
+        // Обновление ползунка при вводе значений
+        minPriceInput.addEventListener('change', function () {
+            priceSlider.noUiSlider.set([this.value, null]);
+        });
+
+        maxPriceInput.addEventListener('change', function () {
+            priceSlider.noUiSlider.set([null, this.value]);
+        });
+
+        // Добавляем обработчик изменения положения ползунка
+        priceSlider.noUiSlider.on('change', function (values) {
+            currentFilters.minPrice = Math.round(values[0]);
+            currentFilters.maxPrice = Math.round(values[1]);
+            currentPage = 1;
+            loadProducts(1);
+        });
+    }
+
+    // Инициализация ползунка цен для мобильной версии
+    const priceSliderMobile = document.getElementById('price-slider-mobile');
+    if (priceSliderMobile) {
+        noUiSlider.create(priceSliderMobile, {
+            start: [priceRange.min, priceRange.max],
+            connect: true,
+            range: {
+                'min': priceRange.min,
+                'max': priceRange.max
+            },
+            step: 100
+        });
+
+        // Синхронизация значений ползунка с полями ввода
+        const minPriceInputMobile = document.getElementById('minPrice');
+        const maxPriceInputMobile = document.getElementById('maxPrice');
+
+        priceSliderMobile.noUiSlider.on('update', function (values, handle) {
+            const value = Math.round(values[handle]);
+            if (handle === 0) {
+                minPriceInputMobile.value = value;
+            } else {
+                maxPriceInputMobile.value = value;
+            }
+        });
+
+        // Обновление ползунка при вводе значений
+        minPriceInputMobile.addEventListener('change', function () {
+            priceSliderMobile.noUiSlider.set([this.value, null]);
+        });
+
+        maxPriceInputMobile.addEventListener('change', function () {
+            priceSliderMobile.noUiSlider.set([null, this.value]);
+        });
+
+        // Добавляем обработчик изменения положения ползунка
+        priceSliderMobile.noUiSlider.on('change', function (values) {
+            currentFilters.minPrice = Math.round(values[0]);
+            currentFilters.maxPrice = Math.round(values[1]);
+            currentPage = 1;
+            loadProducts(1);
+        });
+    }
+
     // Загружаем первую страницу товаров
     loadProducts(1);
     

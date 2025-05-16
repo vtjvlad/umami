@@ -133,6 +133,20 @@ app.get("/api/products", async (req, res) => {
         const colors = await Product.distinct('info.color.labelColor');
         console.log('Available colors:', colors);
 
+        // Get min and max prices from database
+        const priceStats = await Product.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    minPrice: { $min: "$price.self.UAH.currentPrice" },
+                    maxPrice: { $max: "$price.self.UAH.currentPrice" }
+                }
+            }
+        ]);
+        
+        const priceRange = priceStats[0] || { minPrice: 0, maxPrice: 10000 };
+        console.log('Price range:', priceRange);
+
         console.log(`Found ${products.length} products on page ${page} of ${Math.ceil(total / limit)}`);
 
         res.json({
@@ -144,7 +158,11 @@ app.get("/api/products", async (req, res) => {
                 productsPerPage: limit
             },
             filters: {
-                colors: colors.filter(Boolean)
+                colors: colors.filter(Boolean),
+                priceRange: {
+                    min: priceRange.minPrice,
+                    max: priceRange.maxPrice
+                }
             }
         });
     } catch (error) {
