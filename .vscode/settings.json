@@ -1,4 +1,9 @@
 {
     "editor.minimap.showSlider": "always",
-    "editor.minimap.scale": 2
+    "editor.minimap.scale": 2,
+    "editor.fontFamily": "'OpenDyslexicM Nerd Font', monoscape",
+    "terminal.integrated.fontFamily": "'OpenDyslexicM Nerd Font', monoscape",
+    "terminal.integrated.fontSize": 10,
+    "editor.fontSize": 12,
+    "chat.editor.fontSize": 12
 }

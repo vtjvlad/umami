@@ -407,6 +407,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Загружаем первую страницу товаров
     loadProducts(1);
     
+    // Обработчик кнопки переключения фильтров
+    const filterToggle = document.getElementById('filterToggle');
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    
+    if (filterToggle && filterSidebar) {
+        filterToggle.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                // Мобильное поведение
+                filterSidebar.classList.toggle('active');
+                document.body.classList.toggle('filter-open');
+            } else {
+                // Десктопное поведение
+                filterSidebar.classList.toggle('hidden');
+                // Обновляем текст кнопки
+                const buttonText = filterToggle.querySelector('i').nextSibling;
+                if (filterSidebar.classList.contains('hidden')) {
+                    buttonText.textContent = ' Показать фильтры';
+                } else {
+                    buttonText.textContent = ' Скрыть фильтры';
+                }
+            }
+        });
+        
+        // Закрываем фильтр при клике вне его области (только для мобильных)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && 
+                filterSidebar.classList.contains('active') && 
+                !filterSidebar.contains(e.target) && 
+                !filterToggle.contains(e.target)) {
+                filterSidebar.classList.remove('active');
+                document.body.classList.remove('filter-open');
+            }
+        });
+    }
+    
     // Обработчик кнопки "Загрузить еще"
     document.getElementById('load-more').addEventListener('click', () => {
         if (!isLoading) {
@@ -561,6 +596,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sidebarCheckbox) {
                 sidebarCheckbox.checked = checkbox.checked;
             }
+            
+            // Собираем все выбранные ключевые слова
+            currentFilters.keywords = Array.from(document.querySelectorAll('#filter-form input[name="keywords"]:checked')).map(input => input.value);
+            
+            // Применяем фильтры сразу
+            currentPage = 1;
+            loadProducts(1);
         });
     });
     
@@ -572,6 +614,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mobileCheckbox) {
                 mobileCheckbox.checked = checkbox.checked;
             }
+            
+            // Собираем все выбранные ключевые слова
+            currentFilters.keywords = Array.from(document.querySelectorAll('#filter-form-sidebar input[name="keywords"]:checked')).map(input => input.value);
+            
+            // Применяем фильтры сразу
+            currentPage = 1;
+            loadProducts(1);
         });
     });
     
