@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/vtjvlad/umami/issues"
   },
-  "homepage": "https://github.com/vtjvlad/umami#readme"
+  "homepage": "https://github.com/vtjvlad/umami#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "fs": "^0.0.1-security",
+    "mongoose": "^8.14.3"
+  }
 }
