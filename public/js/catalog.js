@@ -1,4 +1,6 @@
 // Глобальные переменные для управления состоянием каталога
+
+    let hasMore = true;
 let currentPage = 1;      // Текущая страница
 let totalPages = 1;       // Общее количество страниц
 let isLoading = false;    // Флаг загрузки данных
@@ -824,3 +826,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 }); 
+
+
+function handleScroll() {
+    if (isLoading || !hasMore) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    
+    if (scrollTop + clientHeight >= scrollHeight - 500) {
+        loadProducts(currentPage + 1);
+    }
+}  
+
+
+
+
+
+window.addEventListener('scroll', handleScroll); 

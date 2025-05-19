@@ -6,7 +6,18 @@ function handleScroll() {
     if (scrollTop + clientHeight >= scrollHeight - 500) {
         fetchProducts(currentPage + 1);
     }
-}  window.addEventListener('scroll', handleScroll); async function fetchProducts(page = 1) {
+}  
+
+
+
+
+
+window.addEventListener('scroll', handleScroll); 
+
+
+
+
+async function fetchProducts(page = 1) {
     if (isLoading) return;
     isLoading = true;
     
