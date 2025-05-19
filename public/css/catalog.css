@@ -564,7 +564,7 @@ a:hover {
     box-shadow: var(--card-shadow);
     padding: 25px;
     margin-bottom: 30px;
-    position: relative;
+    position: sticky;
     top: 30px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateX(0);
