@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <!-- Подключение Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Подключение стилей Bootstrap и Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Подключение noUiSlider -->
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
+    <!-- Подключение пользовательских стилей -->
+    <link href="./css/catalog.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <!-- Логотип и название сайта -->
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-store me-2"></i>
+                PRIME
+            </a>
+            <!-- Кнопка мобильного меню -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMegaMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Основное меню -->
+            <div class="collapse navbar-collapse" id="navbarMegaMenu">
+                <ul class="navbar-nav">
+                    <!-- Категория "Одежда и обувь" -->
+                    <li class="nav-item dropdown position-static">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            Одежда
+                        </a>
+                        <div class="dropdown-menu w-100 mt-0">
+                            <div class="container">
+                                <div class="row my-4">
+                                    <!-- Подкатегории -->
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Верхняя одежда</h6>
+                                        <a class="dropdown-item" href="#">Куртки</a>
+                                        <a class="dropdown-item" href="#">Худи</a>
+                                        <a class="dropdown-item" href="#">Свитшоты</a>
+                                        <a class="dropdown-item" href="#">Флис</a>
+                                        <a class="dropdown-item" href="#">Ветровки</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Футболки и топы</h6>
+                                        <a class="dropdown-item" href="#">Футболки</a>
+                                        <a class="dropdown-item" href="#">Лонгсливы</a>
+                                        <a class="dropdown-item" href="#">Топы</a>
+                                        <a class="dropdown-item" href="#">Поло</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Штаны и брюки</h6>
+                                        <a class="dropdown-item" href="#">Брюки</a>
+                                        <a class="dropdown-item" href="#">Шорты</a>
+                                        <a class="dropdown-item" href="#">Джоггеры</a>
+                                        <a class="dropdown-item" href="#">Леггинсы</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Акции и новинки</h6>
+                                        <a class="dropdown-item" href="#">Новые поступления</a>
+                                        <a class="dropdown-item" href="#">Скидки до 30%</a>
+                                        <a class="dropdown-item" href="#">Коллекция 2023</a>
+                                        <a class="dropdown-item" href="#">Эксклюзивы</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown position-static">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            Обувь
+                        </a>
+                        <div class="dropdown-menu w-100 mt-0">
+                            <div class="container">
+                                <div class="row my-4">
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Спортивная обувь</h6>
+                                        <a class="dropdown-item" href="#">Кроссовки</a>
+                                        <a class="dropdown-item" href="#">Бутсы</a>
+                                        <a class="dropdown-item" href="#">Сандалии</a>
+                                        <a class="dropdown-item" href="#">Сланцы</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Повседневная обувь</h6>
+                                        <a class="dropdown-item" href="#">Кеды</a>
+                                        <a class="dropdown-item" href="#">Слипоны</a>
+                                        <a class="dropdown-item" href="#">Лоферы</a>
+                                        <a class="dropdown-item" href="#">Мокасины</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">По сезону</h6>
+                                        <a class="dropdown-item" href="#">Летняя</a>
+                                        <a class="dropdown-item" href="#">Демисезонная</a>
+                                        <a class="dropdown-item" href="#">Зимняя</a>
+                                        <a class="dropdown-item" href="#">Всесезонная</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="dropdown-header">Бренды обуви</h6>
+                                        <a class="dropdown-item" href="#">Nike</a>
+                                        <a class="dropdown-item" href="#">Adidas</a>
+                                        <a class="dropdown-item" href="#">Puma</a>
+                                        <a class="dropdown-item" href="#">Reebok</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown position-static">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            Спорт
+                        </a>
+                        <div class="dropdown-menu w-100 mt-0">
+                            <div class="container">
+                                <div class="row my-4">
+                                    <div class="col-md-4">
+                                        <h6 class="dropdown-header">Командные виды спорта</h6>
+                                        <a class="dropdown-item" href="#">Баскетбол</a>
+                                        <a class="dropdown-item" href="#">Футбол</a>
+                                        <a class="dropdown-item" href="#">Волейбол</a>
+                                        <a class="dropdown-item" href="#">Хоккей</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="dropdown-header">Индивидуальные виды спорта</h6>
+                                        <a class="dropdown-item" href="#">Теннис</a>
+                                        <a class="dropdown-item" href="#">Гольф</a>
+                                        <a class="dropdown-item" href="#">Бег</a>
+                                        <a class="dropdown-item" href="#">Йога</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="dropdown-header">Экипировка</h6>
+                                        <a class="dropdown-item" href="#">Спортивная защита</a>
+                                        <a class="dropdown-item" href="#">Тренировочный инвентарь</a>
+                                        <a class="dropdown-item" href="#">Фитнес-аксессуары</a>
+                                        <a class="dropdown-item" href="#">Спортивное питание</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown position-static">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            Аксессуары
+                        </a>
+                        <div class="dropdown-menu w-100 mt-0">
+                            <div class="container">
+                                <div class="row my-4">
+                                    <div class="col-md-6">
+                                        <h6 class="dropdown-header">Головные уборы</h6>
+                                        <a class="dropdown-item" href="#">Шапки</a>
+                                        <a class="dropdown-item" href="#">Кепки</a>
+                                        <a class="dropdown-item" href="#">Бейсболки</a>
+                                        <a class="dropdown-item" href="#">Бини</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="dropdown-header">Сумки и рюкзаки</h6>
+                                        <a class="dropdown-item" href="#">Рюкзаки</a>
+                                        <a class="dropdown-item" href="#">Спортивные сумки</a>
+                                        <a class="dropdown-item" href="#">Поясные сумки</a>
+                                        <a class="dropdown-item" href="#">Кроссбоди</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <!-- Правая часть меню -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-shopping-bag"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок каталога -->
+    <div class="catalog-header">
+        <div class="container">
+            <h1 class="display-4 mb-3">Каталог товаров</h1>
+            <p class="lead mb-0">Выберите интересующий вас товар</p>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="row">
+            <!-- Боковые фильтры для десктопа -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="filter-sidebar">
+                    <h4 class="filter-title">Фильтры</h4>
+                    
+                    <form id="filter-form-sidebar">
+                        <div class="filter-group">
+                            <label class="form-label">Цена</label>
+                            <div class="price-range-slider">
+                                <div id="price-slider"></div>
+                                <div class="price-inputs">
+                                    <input type="number" class="form-control" id="minPrice-sidebar" placeholder="От">
+                                    <span>-</span>
+                                    <input type="number" class="form-control" id="maxPrice-sidebar" placeholder="До">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="form-label">Цвет</label>
+                            <div class="accordion" id="colorAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseColor">
+                                            Выбрать цвет
+                                        </button>
+                                    </h2>
+                                    <div id="collapseColor" class="accordion-collapse collapse" data-bs-parent="#colorAccordion">
+                                        <div class="accordion-body">
+                                            <div id="color-filters-sidebar" class="color-filters">
+                                                <!-- Опции цветов будут добавлены динамически -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+
+
+                            <label class="form-label">Категории</label>
+
+
+                            <div class="keyword-filters-sidebar">
+
+
+                    <div class="accordion" id="categoryAccordion">
+                                    <!-- Для кого -->
+                                <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                                Для кого
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#categoryAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="men's"> Для мужчин </label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="women's"> Для женщин </label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="big kids"> Для подростков </label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="little kids"> Для детей </label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="toddler"> Для малышей</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="baby"> Для младенцев</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                            Одежда и обувь
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#categoryAccordion">
+                                        <div class="accordion-body">
+                                            
+                                            
+                                            
+                                    <div class="accordion" id="keywordsAccordion"> 
+
+                                        <!-- Верхняя одежда -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoOne">
+                                                    Верхняя одежда
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwoOne" class="accordion-collapse collapse" data-bs-parent="#keywordsAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="jacket"> Куртки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hoodie"> Худи</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="pullover"> Пуловеры</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sweatshirt"> Свитшоты</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fleece"> Флис</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="windshirt"> Ветровки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="windrunner"> Спортивные куртки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="anorak"> Анораки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="parka"> Парки</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoTwo">
+                                                    Футболки и топы
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwoTwo" class="accordion-collapse collapse" data-bs-parent="#keywordsAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="t-shirt"> Футболки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="long-sleeve"> Лонгсливы</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="short-sleeve"> Короткий рукав</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="jersey"> Jersey</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tank"> Топы</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sleeveless"> Без рукавов</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="polo"> Поло</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="henley"> Хенли</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoThree">
+                                                    Шорты и брюки
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwoThree" class="accordion-collapse collapse" data-bs-parent="#keywordsAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="pants"> Брюки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="shorts"> Шорты</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="joggers"> Джоггеры</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sweatpants"> Спортивные штаны</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cargo"> Карго</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="chino"> Чино</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="leggings"> Леггинсы</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Обувь -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoFour">
+                                                    Обувь
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwoFour" class="accordion-collapse collapse" data-bs-parent="#keywordsAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="shoes"> Кроссовки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cleats"> Бутсы</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="slides"> Сланцы</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sandals"> Сандалии</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="flip-flops"> Шлепанцы</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sneaker"> Сникерсы</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoFive">
+                                                    Сезонные категории
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwoFive" class="accordion-collapse collapse" data-bs-parent="#keywordsAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="winterized"> Зимняя</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="waterproof"> Водонепроницаемая</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="water-repellent"> Водоотталкивающая</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="quick-dry"> Быстросохнущая</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="insulated"> Утепленная</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+                                    </div>
+                                        </div>
+                            </div>
+                        </div>
+
+                                <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                                Аксессуары
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#categoryAccordion">
+                                            <div class="accordion-body">
+                                                
+                                    
+                            <div class="accordion" id="accessoriesAccordion">
+
+                                    <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeOne">
+                                                    Головные уборы и аксессуары
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThreeOne" class="accordion-collapse collapse" data-bs-parent="#accessoriesAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hat"> Шапки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cap"> Кепки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="beanie"> Бини</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sunglasses"> Солнечные очки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="gloves"> Перчатки</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="scarf"> Шарфы</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="belt"> Ремни</label>
+                                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="socks"> Носки</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThreeTwo">
+                                                Сумки и рюкзаки
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThreeTwo" class="accordion-collapse collapse" data-bs-parent="#accessoriesAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="bag"> Сумки</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="backpack"> Рюкзаки</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="duffel"> Спортивные сумки</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="tote"> Шопперы</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="fanny"> Поясные сумки</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="waistpack"> Поясные сумки</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="crossbody"> Кроссбоди</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                        </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                            Спортивные категории
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#categoryAccordion">
+                                        <div class="accordion-body">
+
+                                            <div class="accordion" id="sportsAccordion">
+
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourOne">
+                                                Спортивная одежда
+                                            </button>
+                                        </h2>
+
+                                            <div id="collapseFourOne" class="accordion-collapse collapse" data-bs-parent="#sportsAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="dri-fit"> Dri-Fit</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="training"> Тренировочная</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="workout"> Для тренировок</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="fitness"> Фитнес</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="performance"> Профессиональная</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="sportswear"> Спортивная</label>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourTwo">
+                                                Командные виды спорта
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFourTwo" class="accordion-collapse collapse" data-bs-parent="#sportsAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="basketball"> Баскетбол</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="football"> Футбол</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="soccer"> Соккер</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="baseball/softball"> Бейсбол/Софтбол</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="volleyball"> Волейбол</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="hockey"> Хоккей</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="rugby"> Регби</label>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourThree">
+                                                Индивидуальные виды спорта
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFourThree" class="accordion-collapse collapse" data-bs-parent="#sportsAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="tennis"> Теннис</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="golf"> Гольф</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="running"> Бег</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="training"> Тренировки</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="yoga"> Йога</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="gymnastics"> Гимнастика</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourFour">
+                                                Лиги и соревнования
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFourFour" class="accordion-collapse collapse" data-bs-parent="#sportsAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="nba"> NBA</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="nfl"> NFL</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="mlb"> MLB</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="nwsl"> NWSL</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="wnba"> WNBA</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="college"> Колледж</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                            Стили и особенности
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#categoryAccordion">
+                                        <div class="accordion-body">
+
+
+                                            <div class="accordion" id="stylesAccordion">
+
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve">
+                                                Размерные характеристики
+                                            </button>
+                                        </h2>
+                                        <div id="collapseTwelve" class="accordion-collapse collapse" data-bs-parent="#stylesAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="plus size"> Plus Size</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="oversized"> Oversized</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="over-oversized"> Over-Oversized</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="slim"> Slim Fit</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="wide"> Wide Fit</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="extended size"> Extended Size</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirteen">
+                                                Фасоны
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThirteen" class="accordion-collapse collapse" data-bs-parent="#stylesAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="crew"> Круглый вырез</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="crew-neck"> Круглый вырез</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="v-neck"> V-образный вырез</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="high-neck"> Высокий вырез</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="mock-neck"> Воротник-стойка</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="racerback"> Рейсбек</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourteen">
+                                                Материалы и текстуры    
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFourteen" class="accordion-collapse collapse" data-bs-parent="#stylesAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="terry"> Махровая ткань</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="knit"> Трикотаж</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="mesh"> Сетка</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="fleece"> Флис</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="cotton"> Хлопок</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="nylon"> Нейлон</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="leather"> Кожа</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFifteen">
+                                                Особенности дизайна
+                                            </button>
+                                        </h2>
+                                        <div id="collapseFifteen" class="accordion-collapse collapse" data-bs-parent="#stylesAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="graphic"> Графика</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="printed"> Принт</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="striped"> Полоски</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="plaid"> Клетка</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="floral"> Цветочный</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="colorblocked"> Цветовые блоки</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixteen">
+                                                Технические характеристики
+                                            </button>
+                                        </h2>
+                                        <div id="collapseSixteen" class="accordion-collapse collapse" data-bs-parent="#stylesAccordion">
+                                            <div class="accordion-body">
+                                                <div class="keyword-options">
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="adjustable"> Регулируемая</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="reversible"> Двусторонняя</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="stretch"> Растягивающаяся</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="lightweight"> Легкая</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="packable"> Компактная</label>
+                                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="windproof"> Ветрозащитная</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                
+                                    
+                                    
+                                </div>
+
+
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-filter me-2"></i>
+                            Применить фильтры
+                        </button>
+                        <button type="button" class="btn btn-secondary w-100" id="reset-filters-sidebar">
+                            <i class="fas fa-times me-2"></i>
+                            Сбросить
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Основной контент с товарами -->
+            <div class="col-lg-9">
+                <!-- Мобильная кнопка фильтров -->
+                <div class="d-lg-none mb-3">
+                    <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
+                        <i class="fas fa-filter me-2"></i>
+                        Фильтры и сортировка
+                    </button>
+                </div>
+                
+                <!-- Панель фильтров для мобильных устройств (Offcanvas) -->
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title">Фильтры</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <!-- Форма фильтров для мобильных -->
+                        <form id="filter-form">
+                            <!-- Поиск по названию -->
+                            <div class="filter-group">
+                                <label class="form-label">Поиск</label>
+                                <div class="search-input">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" class="form-control" id="search" placeholder="Название товара">
+                                </div>
+                            </div>
+                            
+                            <!-- Фильтр по цене -->
+                            <div class="filter-group">
+                                <label class="form-label">Цена</label>
+                                <div class="price-range-slider">
+                                    <div id="price-slider-mobile"></div>
+                                    <div class="price-inputs">
+                                        <input type="number" class="form-control" id="minPrice" placeholder="От">
+                                        <span>-</span>
+                                        <input type="number" class="form-control" id="maxPrice" placeholder="До">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Фильтр по цвету -->
+                            <div class="filter-group">
+                                <label class="form-label">Цвет</label>
+                                <div class="accordion" id="colorAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseColor">
+                                                Выбрать цвет
+                                            </button>
+                                        </h2>
+                                        <div id="collapseColor" class="accordion-collapse collapse" data-bs-parent="#colorAccordion">
+                                            <div class="accordion-body">
+                                                <div id="color-filters" class="color-filters">
+                                                    <!-- Опции цветов будут добавлены динамически -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                <!-- Фильтр по ключевым словам -->
+                <div class="col-12">
+                    <div class="filter-group">
+                        <label class="form-label">Ключевые слова</label>
+                        <div class="keyword-filters">
+                            <!-- Для кого -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Для кого</h6>
+                                <div class="keyword-options">
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="men's"> Мужская одежда</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="women's"> Женская одежда</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="big kids"> Детская одежда</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="little kids"> Одежда для малышей</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="baby"> Для младенцев</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="toddler"> Для малышей</label>
+                                </div>
+                            </div>
+
+                            <!-- Одежда и обувь -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Одежда и обувь</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Верхняя одежда</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="jacket"> Куртки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hoodie"> Худи</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="pullover"> Свитшоты</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sweatshirt"> Свитшоты</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fleece"> Флис</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="windshirt"> Ветровки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="windrunner"> Ветровки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="anorak"> Анораки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="parka"> Парки</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Футболки и топы</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="t-shirt"> Футболки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="long-sleeve"> Лонгсливы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="short-sleeve"> Короткий рукав</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tank"> Топы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sleeveless"> Без рукавов</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="polo"> Поло</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="henley"> Хенли</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Штаны и брюки</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="pants"> Брюки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="shorts"> Шорты</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="joggers"> Джоггеры</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sweatpants"> Спортивные штаны</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cargo"> Карго</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="chino"> Чино</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="leggings"> Леггинсы</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Обувь</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="shoes"> Кроссовки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cleats"> Бутсы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="slides"> Сланцы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sandals"> Сандалии</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="flip-flops"> Шлепанцы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sneaker"> Сникерсы</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Аксессуары -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Аксессуары</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Головные уборы и аксессуары</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hat"> Шапки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cap"> Кепки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="beanie"> Бини</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sunglasses"> Солнечные очки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="gloves"> Перчатки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="scarf"> Шарфы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="belt"> Ремни</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="socks"> Носки</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Сумки и рюкзаки</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="bag"> Сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="backpack"> Рюкзаки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="duffel"> Спортивные сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tote"> Шопперы</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fanny"> Поясные сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="waistpack"> Поясные сумки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="crossbody"> Кроссбоди</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Спортивные категории -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Спортивные категории</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Спортивная одежда</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="dri-fit"> Dri-Fit</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="training"> Тренировочная</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="workout"> Для тренировок</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fitness"> Фитнес</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="performance"> Профессиональная</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="sportswear"> Спортивная</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Командные виды спорта</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="basketball"> Баскетбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="football"> Футбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="soccer"> Соккер</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="baseball/softball"> Бейсбол/Софтбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="volleyball"> Волейбол</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="hockey"> Хоккей</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="rugby"> Регби</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Индивидуальные виды спорта</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="tennis"> Теннис</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="golf"> Гольф</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="running"> Бег</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="training"> Тренировки</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="yoga"> Йога</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="gymnastics"> Гимнастика</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Лиги и соревнования</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nba"> NBA</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nfl"> NFL</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="mlb"> MLB</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nwsl"> NWSL</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="wnba"> WNBA</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="college"> Колледж</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Стили и особенности -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Стили и особенности</h6>
+                                <div class="keyword-options">
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Размерные характеристики</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="plus size"> Plus Size</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="oversized"> Oversized</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="over-oversized"> Over-Oversized</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="slim"> Slim Fit</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="wide"> Wide Fit</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="extended size"> Extended Size</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Фасоны</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="crew"> Круглый вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="crew-neck"> Круглый вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="v-neck"> V-образный вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="high-neck"> Высокий вырез</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="mock-neck"> Воротник-стойка</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="racerback"> Рейсбек</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Материалы и текстуры</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="terry"> Махровая ткань</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="knit"> Трикотаж</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="mesh"> Сетка</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="fleece"> Флис</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="cotton"> Хлопок</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="nylon"> Нейлон</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="leather"> Кожа</label>
+                                    </div>
+                                    <div class="keyword-subcategory">
+                                        <h6 class="keyword-subheader">Особенности дизайна</h6>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="graphic"> Графика</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="printed"> Принт</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="striped"> Полоски</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="plaid"> Клетка</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="floral"> Цветочный</label>
+                                        <label class="keyword-option"><input type="checkbox" name="keywords" value="colorblocked"> Цветовые блоки</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Сезонные категории -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Сезонные категории</h6>
+                                <div class="keyword-options">
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="winterized"> Зимняя</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="waterproof"> Водонепроницаемая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="water-repellent"> Водоотталкивающая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="quick-dry"> Быстросохнущая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="insulated"> Утепленная</label>
+                                </div>
+                            </div>
+
+                            <!-- Технические характеристики -->
+                            <div class="keyword-category">
+                                <h6 class="keyword-header">Технические характеристики</h6>
+                                <div class="keyword-options">
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="adjustable"> Регулируемая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="reversible"> Двусторонняя</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="stretch"> Растягивающаяся</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="lightweight"> Легкая</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="packable"> Компактная</label>
+                                    <label class="keyword-option"><input type="checkbox" name="keywords" value="windproof"> Ветрозащитная</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                            <!-- Кнопки управления фильтрами -->
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary w-100 mb-2">
+                                    <i class="fas fa-filter me-2"></i>
+                                    Применить фильтры
+                                </button>
+                                <button type="button" class="btn btn-secondary w-100" id="reset-filters">
+                                    <i class="fas fa-times me-2"></i>
+                                    Сбросить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Результаты и сортировка -->
+                <div class="results-header mb-4">
+                    <div class="results-count">
+                        <h4 class="mb-0 fw-normal">Все товары</h4>
+                    </div>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="search-input">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="search-sidebar" placeholder="Название товара">
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="sort-options">
+                                <select class="form-select">
+                                    <option selected>По популярности</option>
+                                    <option>Цена: по возрастанию</option>
+                                    <option>Цена: по убыванию</option>
+                                    <option>Новинки</option>
+                                    <option>Скидки</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline-secondary filter-toggle" id="filterToggle">
+                                <i class="fas fa-filter me-2"></i>
+                                Фильтры
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контейнер для товаров -->
+                <div class="row" id="products-container">
+                    <!-- Товары будут добавлены динамически -->
+                </div>
+                
+                <!-- Индикатор загрузки -->
+                <div class="loading-spinner" id="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Загрузка...</span>
+                    </div>
+                </div>
+
+                <!-- Кнопка "Загрузить еще" -->
+                <div class="text-center">
+                    <button class="btn btn-primary load-more" id="load-more">
+                        <i class="fas fa-plus me-2"></i>
+                        Загрузить еще
+                    </button>
+                </div>
+
+                <!-- Пагинация -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center" id="pagination">
+                        <!-- Элементы пагинации будут добавлены динамически -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="footer-heading">О компании</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Карьера</a></li>
+                        <li><a href="#">Пресс-центр</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-heading">Помощь</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Доставка</a></li>
+                        <li><a href="#">Оплата</a></li>
+                        <li><a href="#">Возврат</a></li>
+                        <li><a href="#">Гарантия</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-heading">Услуги</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Программа лояльности</a></li>
+                        <li><a href="#">Подарочные карты</a></li>
+                        <li><a href="#">Корпоративным клиентам</a></li>
+                        <li><a href="#">Эксклюзивы</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-heading">Оставайтесь на связи</h5>
+                    <ul class="social-links">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                    </ul>
+                    <div class="newsletter">
+                        <p>Подпишитесь на новости и акции</p>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Ваш email">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="copyright">© 2023 PRIME. Все права защищены.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="payment-methods">
+                            <li><i class="fab fa-cc-visa"></i></li>
+                            <li><i class="fab fa-cc-mastercard"></i></li>
+                            <li><i class="fab fa-cc-paypal"></i></li>
+                            <li><i class="fab fa-apple-pay"></i></li>
+                            <li><i class="fab fa-google-pay"></i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Подключение скриптов -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
+    <script src="./js/catalog2.js"></script>
+  <script src="./js/catalog-js/part1.js"></script>
+  <script src="./js/catalog-js/part2.js"></script>
+  <script src="./js/catalog-js/part3.js"></script>
+  <script src="./js/catalog-js/part4.js"></script>
+
+</body>
+</html> 
