@@ -181,8 +181,8 @@ app.get("/catalog", (req, res) => {
 });
 
 // Catalog page route
-app.get("/catalog-ex", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "catalog-ex.html"));
+app.get("/w", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "catalog-old.html"));
 });
 
 // Error handling middleware
