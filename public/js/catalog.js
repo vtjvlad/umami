@@ -48,7 +48,7 @@ function createProductCard(product) {
                    'https://via.placeholder.com/300x400';
     
     // Получаем цену товара
-    const price = product.price?.self?.UAH?.currentPrice || 
+    const price = product.price?.self?.selfUAH?.current20 || 
                 product.price?.origin?.currentPrice || 
                 '0';
                 
