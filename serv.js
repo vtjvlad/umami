@@ -165,8 +165,11 @@ app.get("/api/products", async (req, res) => {
         // Get total count of groups for pagination
         const totalGroups = await Product.aggregate([
             { $match: filter },
-            { $group: { _id: '$pid.groupKey' } }
-        ]).length;
+            { $group: { _id: '$pid.groupKey' } },
+            { $count: 'total' }
+        ]);
+
+        const totalCount = totalGroups[0]?.total || 0;
 
         // Get all unique colors from database
         const colors = await Product.distinct('info.color.labelColor');
@@ -186,14 +189,14 @@ app.get("/api/products", async (req, res) => {
         const priceRange = priceStats[0] || { minPrice: 0, maxPrice: 10000 };
         console.log('Price range:', priceRange);
 
-        console.log(`Found ${groupedProducts.length} product groups on page ${page} of ${Math.ceil(totalGroups / limit)}`);
+        console.log(`Found ${groupedProducts.length} product groups on page ${page} of ${Math.ceil(totalCount / limit)}`);
 
         res.json({
             products: groupedProducts,
             pagination: {
                 currentPage: page,
-                totalPages: Math.ceil(totalGroups / limit),
-                totalProducts: totalGroups,
+                totalPages: Math.ceil(totalCount / limit),
+                totalProducts: totalCount,
                 productsPerPage: limit
             },
             filters: {

@@ -332,10 +332,10 @@ async function loadProducts(page = 1) {
         
         const data = await response.json();
         console.log('Received data:', data);
-        
-        const container = document.getElementById('products-container');
+
+        const productsContainer = document.getElementById('products-container');
         if (page === 1) {
-            container.innerHTML = '';
+            productsContainer.innerHTML = '';
         }
         
         // Обновляем заголовок результатов
@@ -343,7 +343,7 @@ async function loadProducts(page = 1) {
         
         // Обрабатываем случай, когда товары не найдены
         if (!data.products || data.products.length === 0) {
-            container.innerHTML = `
+            productsContainer.innerHTML = `
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-search fa-3x mb-3 text-muted"></i>
                     <h3 class="fw-light text-muted">Товары не найдены</h3>
@@ -354,9 +354,16 @@ async function loadProducts(page = 1) {
             document.getElementById('pagination').style.display = 'none';
         } else {
             // Отображаем найденные товары
-            data.products.forEach(product => {
-                container.innerHTML += createProductCard(product);
-            });
+            const productsHTML = data.products.map(productGroup => {
+                const product = productGroup[0];
+                return createProductCard(product);
+            }).join('');
+            
+            if (page === 1) {
+                productsContainer.innerHTML = productsHTML;
+            } else {
+                productsContainer.insertAdjacentHTML('beforeend', productsHTML);
+            }
 
             currentPage = data.pagination.currentPage;
             totalPages = data.pagination.totalPages;
@@ -379,7 +386,6 @@ async function loadProducts(page = 1) {
                 currentPage < totalPages ? 'block' : 'none';
             document.getElementById('pagination').style.display = 'block';
         }
-
     } catch (error) {
         console.error('Error loading products:', error);
         // Показываем сообщение об ошибке
