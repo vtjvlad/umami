@@ -42,34 +42,32 @@ function hideLoading() {
  */
 function createProductCard(product) {
     // Получаем URL изображения из различных возможных источников
-    const imageUrl = product.imageData?.imgMain || 
-                   product.imageData?.portraitURL || 
+    const imageUrl = product.imageData?.portraitURL || 
                    product.imageData?.squarishURL || 
                    'https://via.placeholder.com/300x400';
     
     // Получаем цену товара
     const price = product.price?.self?.selfUAH?.current20 || 
-                product.price?.origin?.currentPrice || 
                 '0';
                 
     // Получаем скидку и оригинальную цену, если есть
-    const hasDiscount = product.price?.self?.UAH?.currentPrice < product.price?.self?.UAH?.fullPrice;
-    const originalPrice = product.price?.self?.UAH?.fullPrice || null;
+    const hasDiscount = product.price?.self?.selfUAH?.current20 < product.price?.self?.selfUAH?.initial20;
+    const originalPrice = product.price?.self?.selfUAH?.initial20 || null;
     const discountPercent = hasDiscount ? 
-        Math.round(100 - (product.price.self.UAH.currentPrice / product.price.self.UAH.fullPrice * 100)) : null;
+        Math.round(100 - (product.price.self.selfUAH.current20 / product.price.self.selfUAH.initial20 * 100)) : null;
     
     // Получаем информацию о цвете
     const colorHex = `#${product.info?.color?.hex}` || '#ffffff';
     const colorLabel = product.info?.color?.labelColor || '';
     
-    // Определяем, является ли товар новинкой (условно - товар с id > 1000 считаем новинкой)
-    const isNew = parseInt(product.id) > 1000;
+    // Проверяем, является ли товар новинкой по наличию поля isNewUntil
+    const isNew = !!product.someAdditionalData?.isNewUntil;
     
     // Получаем категорию
     // const category = product.info?.subtitle?.split(' ')[0] || '';
 
     // Формируем HTML для вариантов
-    const variantsHtml = product.variants && product.variants.length > 0 ? `
+    const variantsHtml = product.variants && product.variants.length > 1 ? `
         <div class="product-variants-wrapper">
             <div class="product-variants">
                 ${product.variants.slice(0, 5).map(variant => `
@@ -104,6 +102,9 @@ function createProductCard(product) {
             ` : ''}
         </div>
     ` : '';
+
+    const hsvr = product.variants && product.variants.length > 1 ? `hsvr` : '';
+    
                     
                     // ${variant.color ? `<span class="variant-color" style="background-color: #${variant.color}"></span>` : ''}
     // ${category ? `<div class="product-category">${category}</div>` : ''}
@@ -122,7 +123,7 @@ function createProductCard(product) {
                 ${variantsHtml}
 
 
-                    <h5 class="product-title">${product.info?.name || 'Без названия'}</h5>
+                    <h5 class="product-title ${hsvr}">${product.info?.name || 'Без названия'}</h5>
                     <p class='product-subtitle'>${product.info?.subtitle || 'Без описания'}</p>
                     
                     <div class="price-container">
@@ -130,13 +131,7 @@ function createProductCard(product) {
                         ${hasDiscount && originalPrice ? `<span class="product-original-price">${originalPrice} ₴</span>` : ''}
                     </div>
                     
-                    ${colorLabel ? `
-                        <div class="product-colors">
-                            <span class="product-color" style="background-color: ${colorHex}"></span>
-                            ${colorLabel && colorLabel !== 'null' ? `<small class="ms-2">${colorLabel}</small>` : ''}
-                        </div>
-                    ` : ''}
-
+                  
                 </div>
             </div>
         </div>
@@ -413,8 +408,7 @@ async function loadProducts(page = 1) {
                             name: mainProduct.info?.name || '',
                             color: mainProduct.info?.color?.hex || '#ffffff',
                             colorLabel: mainProduct.info?.color?.labelColor || '',
-                            image: mainProduct.imageData?.imgMain || mainProduct.imageData?.squarishURL || '',
-                            url: mainProduct.links?.url || '',
+                            image: mainProduct.imageData?.squarishURL || '',
                             isSelected: true // Основной продукт выбран по умолчанию
                         },
                         // Добавляем остальные варианты
@@ -423,8 +417,7 @@ async function loadProducts(page = 1) {
                             name: variant.info?.name || '',
                             color: variant.info?.color?.hex || '#ffffff',
                             colorLabel: variant.info?.color?.labelColor || '',
-                            image: variant.imageData?.imgMain || variant.imageData?.squarishURL || '',
-                            url: variant.links?.url || '',
+                            image:  variant.imageData?.squarishURL || '',
                             isSelected: false
                         }))
                     ]

@@ -422,6 +422,31 @@ a:hover {
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    /* display: block; */
+}
+
+.product-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    /* display: block; */
+}
+
+
+.product-card:hover .hsvr{
+    /* opacity: 0; */
+    display: none;
 }
 
 .product-category {
@@ -996,42 +1021,46 @@ a:hover {
     display: none;
 }
 
-/* Product Variants Styles */
+/* Product Variants */
 .product-variants-wrapper {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    opacity: 0;
+    display: none;
+    /* visibility: hidden; */
+    transition: all 0.3s ease;
+}
+
+.product-card:hover .product-variants-wrapper {
+    opacity: 1;
+    display: block;
+    /* visibility: visible; */
 }
 
 .product-variants {
     display: flex;
-    flex-wrap: nowrap;
     gap: 8px;
-    margin-top: 12px;
-    overflow-x: hidden;
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
 .variant-item {
-    position: relative;
-    min-width: 32px;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 4px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #eee;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
     overflow: hidden;
-    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s ease;
 }
 
 .variant-item:hover {
-    border-color: #666;
     transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .variant-item.selected {
-    border: 2px solid #000;
+    border: 2px solid var(--primary-color);
 }
 
 .variant-image {
@@ -1041,25 +1070,22 @@ a:hover {
 }
 
 .variant-more {
-    min-width: 32px;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 4px;
-    border: 1px solid #e0e0e0;
-    background-color: #f5f5f5;
-    cursor: pointer;
+    border: 1px solid #eee;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     font-size: 12px;
     color: #666;
     transition: all 0.2s ease;
-    flex-shrink: 0;
 }
 
 .variant-more:hover {
-    background-color: #e0e0e0;
-    border-color: #666;
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
 }
 
 .variants-collapse {
@@ -1067,25 +1093,39 @@ a:hover {
 }
 
 .variants-accordion {
+    display: flex;
     flex-wrap: wrap;
+    gap: 8px;
     max-height: 120px;
     overflow-y: auto;
     padding: 8px;
-    background-color: #f9f9f9;
+    background: #f9f9f9;
     border-radius: 4px;
 }
 
-/* Responsive adjustments */
+/* Custom scrollbar for variants accordion */
+.variants-accordion::-webkit-scrollbar {
+    width: 4px;
+}
+
+.variants-accordion::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.variants-accordion::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.variants-accordion::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+}
+
 @media (max-width: 768px) {
-    .product-variants {
-        gap: 6px;
-    }
-    
     .variant-item,
     .variant-more {
-        width: 28px;
-        height: 28px;
-        min-width: 28px;
+        width: 25px;
+        height: 25px;
     }
     
     .variants-accordion {
