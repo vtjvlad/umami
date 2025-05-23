@@ -15,6 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
     <!-- Подключение пользовательских стилей -->
     <link href="./css/catalog.css" rel="stylesheet">
+    <link href="./css/result.css" rel="stylesheet">
 </head>
 <body>
     <!-- Навигационная панель -->
@@ -1001,12 +1002,16 @@
                     <div class="results-count">
                         <h4 class="mb-0 fw-normal">Все товары</h4>
                     </div>
-                    <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-3 ctrl">
                         <div class="search-input">
                             <i class="fas fa-search"></i>
                             <input type="text" class="form-control" id="search-sidebar" placeholder="Название товара">
                         </div>
                         <div class="d-flex align-items-center gap-3">
+                            <button class="btn btn-outline-secondary filter-toggle" id="filterToggle">
+                                <i class="fas fa-filter me-2"></i>
+                                Фильтры
+                            </button>
                             <div class="sort-options">
                                 <select class="form-select">
                                     <option selected>По популярности</option>
@@ -1016,10 +1021,7 @@
                                     <option>Скидки</option>
                                 </select>
                             </div>
-                            <button class="btn btn-outline-secondary filter-toggle" id="filterToggle">
-                                <i class="fas fa-filter me-2"></i>
-                                Фильтры
-                            </button>
+                            
                         </div>
                     </div>
                 </div>

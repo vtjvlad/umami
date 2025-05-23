@@ -105,11 +105,11 @@ function createProductCard(product) {
     const hsvr = product.variants && product.variants.length > 1 ? `hsvr` : '';
 
 
-    // const sustainable = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Sustainable Materials' ? 'sustainable' : '';
-    // const justin = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Just In' ? 'justin' : '';
-    // const bestslr = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Best Seller' ? 'bestslr' : '';
-    // const custom = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Customize' ? 'custom' : '';
-    // const soldout = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Sold Out' ? 'soldout' : '';
+    const sustainable = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Sustainable Materials' ? 'sustainable' : '';
+    const justin = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Just In' ? 'justin' : '';
+    const bestslr = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Best Seller' ? 'bestslr' : '';
+    const custom = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Customize' ? 'custom' : '';
+    const soldout = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Sold Out' ? 'soldout' : '';
 
                     // ${variant.color ? `<span class="variant-color" style="background-color: #${variant.color}"></span>` : ''}
     // ${category ? `<div class="product-category">${category}</div>` : ''}
@@ -123,6 +123,7 @@ function createProductCard(product) {
                     <img src="${imageUrl}" class="product-image" alt="${product.info?.name || 'Товар'}">
                 </div>
                 <div class="product-body">
+                    <h5 class="pb ${sustainable} ${justin} ${bestslr} ${custom} ${soldout}">${product.someAdditionalData.badgeLabel || ''}</h5>
                 ${variantsHtml}
                     <h5 class="product-title ${hsvr}">${product.info?.name || 'Без названия'}</h5>
                     <p class='product-subtitle'>${product.info?.subtitle || 'Без описания'}</p>

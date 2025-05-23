@@ -1,0 +1,20 @@
+.results-header{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    grid-template-areas:
+        ". . . ctrl ctrl"
+        "count count . ctrl ctrl"
+    ;
+}
+
+.results-count{
+    grid-area: count;
+}
+
+.ctrl{
+    grid-area: ctrl;
+}
+
+
+
