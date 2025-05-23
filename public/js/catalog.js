@@ -72,7 +72,6 @@ function createProductCard(product) {
             <div class="product-variants">
                 ${product.variants.slice(0, 5).map(variant => `
                     <div class="variant-item ${variant.isSelected ? 'selected' : ''}"
-                         style="background-color: #${variant.color}"
                          data-variant-id="${variant.id}"
                          data-variant-url="${variant.url}"
                          title="${variant.colorLabel || variant.name || ''}">
@@ -104,8 +103,14 @@ function createProductCard(product) {
     ` : '';
 
     const hsvr = product.variants && product.variants.length > 1 ? `hsvr` : '';
-    
-                    
+
+
+    // const sustainable = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Sustainable Materials' ? 'sustainable' : '';
+    // const justin = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Just In' ? 'justin' : '';
+    // const bestslr = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Best Seller' ? 'bestslr' : '';
+    // const custom = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Customize' ? 'custom' : '';
+    // const soldout = product.someAdditionalData.badgeLabel && product.someAdditionalData.badgeLabel === 'Sold Out' ? 'soldout' : '';
+
                     // ${variant.color ? `<span class="variant-color" style="background-color: #${variant.color}"></span>` : ''}
     // ${category ? `<div class="product-category">${category}</div>` : ''}
     // Формируем HTML-разметку карточки в премиум дизайне
@@ -116,13 +121,9 @@ function createProductCard(product) {
                     ${hasDiscount ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}
                     ${isNew ? `<div class="new-badge">Новинка</div>` : ''}
                     <img src="${imageUrl}" class="product-image" alt="${product.info?.name || 'Товар'}">
-
                 </div>
                 <div class="product-body">
-
                 ${variantsHtml}
-
-
                     <h5 class="product-title ${hsvr}">${product.info?.name || 'Без названия'}</h5>
                     <p class='product-subtitle'>${product.info?.subtitle || 'Без описания'}</p>
                     
@@ -130,8 +131,6 @@ function createProductCard(product) {
                         <span class="product-price">${price} ₴</span>
                         ${hasDiscount && originalPrice ? `<span class="product-original-price">${originalPrice} ₴</span>` : ''}
                     </div>
-                    
-                  
                 </div>
             </div>
         </div>
@@ -409,6 +408,7 @@ async function loadProducts(page = 1) {
                             color: mainProduct.info?.color?.hex || '#ffffff',
                             colorLabel: mainProduct.info?.color?.labelColor || '',
                             image: mainProduct.imageData?.squarishURL || '',
+                            additionalBadge: mainProduct.someAdditionalData?.badgeLabel || '',
                             isSelected: true // Основной продукт выбран по умолчанию
                         },
                         // Добавляем остальные варианты
@@ -418,6 +418,7 @@ async function loadProducts(page = 1) {
                             color: variant.info?.color?.hex || '#ffffff',
                             colorLabel: variant.info?.color?.labelColor || '',
                             image:  variant.imageData?.squarishURL || '',
+                            additionalBadge: variant.someAdditionalData?.badgeLabel || '',
                             isSelected: false
                         }))
                     ]
