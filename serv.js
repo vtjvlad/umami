@@ -228,7 +228,7 @@ app.get('/api/products/:id', async (req, res) => {
         const variants = await Product.find({
             'pid.groupKey': product.pid.groupKey,
             _id: { $ne: product._id }  // исключаем текущий продукт
-        }).select('_id info.color links.url imageData.squarishURL');
+        }).select('_id info.color.hex links.url imageData.squarishURL');
 
         // Добавляем варианты к продукту
         const productWithVariants = {

@@ -59,30 +59,54 @@ function createProductCard(product) {
         Math.round(100 - (product.price.self.UAH.currentPrice / product.price.self.UAH.fullPrice * 100)) : null;
     
     // Получаем информацию о цвете
-    const colorHex = product.info?.color?.hex || '#ffffff';
+    const colorHex = `#${product.info?.color?.hex}` || '#ffffff';
     const colorLabel = product.info?.color?.labelColor || '';
     
     // Определяем, является ли товар новинкой (условно - товар с id > 1000 считаем новинкой)
     const isNew = parseInt(product.id) > 1000;
     
     // Получаем категорию
-    const category = product.info?.subtitle?.split(' ')[0] || '';
+    // const category = product.info?.subtitle?.split(' ')[0] || '';
 
     // Формируем HTML для вариантов
     const variantsHtml = product.variants && product.variants.length > 0 ? `
-        <div class="product-variants">
-            ${product.variants.map(variant => `
-                <div class="variant-item ${variant.isSelected ? 'selected' : ''}" 
-                     data-variant-id="${variant.id}"
-                     data-variant-url="${variant.url}"
-                     title="${variant.colorLabel || variant.name || ''}">
-                    ${variant.image ? `<img src="${variant.image}" alt="${variant.name || ''}" class="variant-image">` : ''}
-                    ${variant.color ? `<span class="variant-color" style="background-color: ${variant.color}"></span>` : ''}
+        <div class="product-variants-wrapper">
+            <div class="product-variants">
+                ${product.variants.slice(0, 5).map(variant => `
+                    <div class="variant-item ${variant.isSelected ? 'selected' : ''}"
+                         style="background-color: #${variant.color}"
+                         data-variant-id="${variant.id}"
+                         data-variant-url="${variant.url}"
+                         title="${variant.colorLabel || variant.name || ''}">
+                        ${variant.image ? `<img src="${variant.image}" alt="${variant.name || ''}" class="variant-image">` : ''}
+                    </div>
+                `).join('')}
+                ${product.variants.length > 5 ? `
+                    <div class="variant-more" data-bs-toggle="collapse" data-bs-target="#variants-${product._id}">
+                        <span>+${product.variants.length - 5}</span>
+                    </div>
+                ` : ''}
+            </div>
+            ${product.variants.length > 5 ? `
+                <div class="collapse variants-collapse" id="variants-${product._id}">
+                    <div class="product-variants variants-accordion">
+                        ${product.variants.slice(5).map(variant => `
+                            <div class="variant-item ${variant.isSelected ? 'selected' : ''}"
+                                 style="background-color: #${variant.color}"
+                                 data-variant-id="${variant.id}"
+                                 data-variant-url="${variant.url}"
+                                 title="${variant.colorLabel || variant.name || ''}">
+                                ${variant.image ? `<img src="${variant.image}" alt="${variant.name || ''}" class="variant-image">` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-            `).join('')}
+            ` : ''}
         </div>
     ` : '';
-
+                    
+                    // ${variant.color ? `<span class="variant-color" style="background-color: #${variant.color}"></span>` : ''}
+    // ${category ? `<div class="product-category">${category}</div>` : ''}
     // Формируем HTML-разметку карточки в премиум дизайне
     return `
         <div class="col-md-4 col-sm-6 mb-4">
@@ -91,9 +115,13 @@ function createProductCard(product) {
                     ${hasDiscount ? `<div class="discount-badge">-${discountPercent}%</div>` : ''}
                     ${isNew ? `<div class="new-badge">Новинка</div>` : ''}
                     <img src="${imageUrl}" class="product-image" alt="${product.info?.name || 'Товар'}">
+
                 </div>
                 <div class="product-body">
-                    ${category ? `<div class="product-category">${category}</div>` : ''}
+
+                ${variantsHtml}
+
+
                     <h5 class="product-title">${product.info?.name || 'Без названия'}</h5>
                     <p class='product-subtitle'>${product.info?.subtitle || 'Без описания'}</p>
                     
@@ -109,7 +137,6 @@ function createProductCard(product) {
                         </div>
                     ` : ''}
 
-                    ${variantsHtml}
                 </div>
             </div>
         </div>
@@ -379,51 +406,58 @@ async function loadProducts(page = 1) {
                 // Создаем копию основного продукта и добавляем варианты
                 const productWithVariants = {
                     ...mainProduct,
-                    variants: productGroup.slice(1).map(variant => ({
-                        id: variant._id,
-                        name: variant.info?.name || '',
-                        color: variant.info?.color?.hex || '#ffffff',
-                        colorLabel: variant.info?.color?.labelColor || '',
-                        image: variant.imageData?.imgMain || variant.imageData?.squarishURL || '',
-                        url: variant.links?.url || '',
-                        isSelected: false
-                    }))
+                    variants: [
+                        // Добавляем основной продукт как первый вариант
+                        {
+                            id: mainProduct._id,
+                            name: mainProduct.info?.name || '',
+                            color: mainProduct.info?.color?.hex || '#ffffff',
+                            colorLabel: mainProduct.info?.color?.labelColor || '',
+                            image: mainProduct.imageData?.imgMain || mainProduct.imageData?.squarishURL || '',
+                            url: mainProduct.links?.url || '',
+                            isSelected: true // Основной продукт выбран по умолчанию
+                        },
+                        // Добавляем остальные варианты
+                        ...productGroup.slice(1).map(variant => ({
+                            id: variant._id,
+                            name: variant.info?.name || '',
+                            color: variant.info?.color?.hex || '#ffffff',
+                            colorLabel: variant.info?.color?.labelColor || '',
+                            image: variant.imageData?.imgMain || variant.imageData?.squarishURL || '',
+                            url: variant.links?.url || '',
+                            isSelected: false
+                        }))
+                    ]
                 };
 
                 // Если есть фильтр по цвету, находим и выбираем соответствующий вариант
                 if (currentFilters.color) {
-                    // Проверяем основной продукт
-                    if (mainProduct.info?.color?.labelColor === currentFilters.color) {
-                        // Если основной продукт подходит, оставляем его как есть
+                    // Ищем подходящий вариант (включая основной продукт)
+                    const matchingVariant = productWithVariants.variants.find(
+                        v => v.colorLabel === currentFilters.color
+                    );
+                    
+                    if (matchingVariant) {
+                        // Если нашли подходящий вариант, делаем его активным
                         productWithVariants.variants.forEach(v => v.isSelected = false);
-                    } else {
-                        // Ищем подходящий вариант
-                        const matchingVariant = productWithVariants.variants.find(
-                            v => v.colorLabel === currentFilters.color
-                        );
+                        matchingVariant.isSelected = true;
                         
-                        if (matchingVariant) {
-                            // Если нашли подходящий вариант, делаем его активным
-                            productWithVariants.variants.forEach(v => v.isSelected = false);
-                            matchingVariant.isSelected = true;
-                            
-                            // Обновляем основное изображение и цвет
-                            productWithVariants.imageData = {
-                                ...productWithVariants.imageData,
-                                imgMain: matchingVariant.image
-                            };
-                            productWithVariants.info = {
-                                ...productWithVariants.info,
-                                color: {
-                                    hex: matchingVariant.color,
-                                    labelColor: matchingVariant.colorLabel
-                                }
-                            };
-                            productWithVariants.links = {
-                                ...productWithVariants.links,
-                                url: matchingVariant.url
-                            };
-                        }
+                        // Обновляем основное изображение и цвет
+                        productWithVariants.imageData = {
+                            ...productWithVariants.imageData,
+                            imgMain: matchingVariant.image
+                        };
+                        productWithVariants.info = {
+                            ...productWithVariants.info,
+                            color: {
+                                hex: matchingVariant.color,
+                                labelColor: matchingVariant.colorLabel
+                            }
+                        };
+                        productWithVariants.links = {
+                            ...productWithVariants.links,
+                            url: matchingVariant.url
+                        };
                     }
                 }
 
