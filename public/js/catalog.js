@@ -68,6 +68,21 @@ function createProductCard(product) {
     // Получаем категорию
     const category = product.info?.subtitle?.split(' ')[0] || '';
 
+    // Формируем HTML для вариантов
+    const variantsHtml = product.variants && product.variants.length > 0 ? `
+        <div class="product-variants">
+            ${product.variants.map(variant => `
+                <div class="variant-item ${variant.isSelected ? 'selected' : ''}" 
+                     data-variant-id="${variant.id}"
+                     data-variant-url="${variant.url}"
+                     title="${variant.colorLabel || variant.name || ''}">
+                    ${variant.image ? `<img src="${variant.image}" alt="${variant.name || ''}" class="variant-image">` : ''}
+                    ${variant.color ? `<span class="variant-color" style="background-color: ${variant.color}"></span>` : ''}
+                </div>
+            `).join('')}
+        </div>
+    ` : '';
+
     // Формируем HTML-разметку карточки в премиум дизайне
     return `
         <div class="col-md-4 col-sm-6 mb-4">
@@ -93,6 +108,8 @@ function createProductCard(product) {
                             ${colorLabel && colorLabel !== 'null' ? `<small class="ms-2">${colorLabel}</small>` : ''}
                         </div>
                     ` : ''}
+
+                    ${variantsHtml}
                 </div>
             </div>
         </div>
@@ -355,8 +372,62 @@ async function loadProducts(page = 1) {
         } else {
             // Отображаем найденные товары
             const productsHTML = data.products.map(productGroup => {
-                const product = productGroup[0];
-                return createProductCard(product);
+                // Используем первый продукт из группы как основной
+                const mainProduct = productGroup[0];
+                if (!mainProduct) return '';
+
+                // Создаем копию основного продукта и добавляем варианты
+                const productWithVariants = {
+                    ...mainProduct,
+                    variants: productGroup.slice(1).map(variant => ({
+                        id: variant._id,
+                        name: variant.info?.name || '',
+                        color: variant.info?.color?.hex || '#ffffff',
+                        colorLabel: variant.info?.color?.labelColor || '',
+                        image: variant.imageData?.imgMain || variant.imageData?.squarishURL || '',
+                        url: variant.links?.url || '',
+                        isSelected: false
+                    }))
+                };
+
+                // Если есть фильтр по цвету, находим и выбираем соответствующий вариант
+                if (currentFilters.color) {
+                    // Проверяем основной продукт
+                    if (mainProduct.info?.color?.labelColor === currentFilters.color) {
+                        // Если основной продукт подходит, оставляем его как есть
+                        productWithVariants.variants.forEach(v => v.isSelected = false);
+                    } else {
+                        // Ищем подходящий вариант
+                        const matchingVariant = productWithVariants.variants.find(
+                            v => v.colorLabel === currentFilters.color
+                        );
+                        
+                        if (matchingVariant) {
+                            // Если нашли подходящий вариант, делаем его активным
+                            productWithVariants.variants.forEach(v => v.isSelected = false);
+                            matchingVariant.isSelected = true;
+                            
+                            // Обновляем основное изображение и цвет
+                            productWithVariants.imageData = {
+                                ...productWithVariants.imageData,
+                                imgMain: matchingVariant.image
+                            };
+                            productWithVariants.info = {
+                                ...productWithVariants.info,
+                                color: {
+                                    hex: matchingVariant.color,
+                                    labelColor: matchingVariant.colorLabel
+                                }
+                            };
+                            productWithVariants.links = {
+                                ...productWithVariants.links,
+                                url: matchingVariant.url
+                            };
+                        }
+                    }
+                }
+
+                return createProductCard(productWithVariants);
             }).join('');
             
             if (page === 1) {
@@ -830,6 +901,53 @@ document.addEventListener('DOMContentLoaded', () => {
             // Прокручиваем к каталогу
             document.querySelector('.catalog-header').scrollIntoView({behavior: 'smooth'});
         });
+    });
+
+    // Добавляем обработчики для вариантов товаров
+    document.addEventListener('click', (e) => {
+        const variantItem = e.target.closest('.variant-item');
+        if (variantItem) {
+            const productCard = variantItem.closest('.product-card');
+            if (productCard) {
+                // Убираем выделение со всех вариантов в этой карточке
+                productCard.querySelectorAll('.variant-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                // Выделяем выбранный вариант
+                variantItem.classList.add('selected');
+                
+                // Получаем URL варианта
+                const variantUrl = variantItem.dataset.variantUrl;
+                if (variantUrl) {
+                    // Обновляем изображение товара
+                    const productImage = productCard.querySelector('.product-image');
+                    const variantImage = variantItem.querySelector('.variant-image');
+                    if (productImage && variantImage) {
+                        productImage.src = variantImage.src;
+                    }
+                    
+                    // Обновляем цвет в информации о товаре
+                    const colorLabel = variantItem.title;
+                    const colorElement = productCard.querySelector('.product-color');
+                    const colorLabelElement = productCard.querySelector('.product-colors small');
+                    
+                    if (colorElement) {
+                        colorElement.style.backgroundColor = variantItem.querySelector('.variant-color')?.style.backgroundColor || '#ffffff';
+                    }
+                    
+                    if (colorLabelElement && colorLabel) {
+                        colorLabelElement.textContent = colorLabel;
+                    }
+                    
+                    // Обновляем URL товара
+                    const productLink = productCard.querySelector('a');
+                    if (productLink) {
+                        productLink.href = variantUrl;
+                    }
+                }
+            }
+        }
     });
 }); 
 

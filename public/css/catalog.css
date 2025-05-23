@@ -971,4 +971,70 @@ a:hover {
 /* Remove old price range styles */
 .price-range {
     display: none;
+}
+
+/* Product Variants Styles */
+.product-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.variant-item {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.variant-item:hover {
+    border-color: #666;
+    transform: translateY(-2px);
+}
+
+.variant-item.selected {
+    border: 2px solid #000;
+}
+
+.variant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.variant-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+}
+
+.variant-size {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-variants {
+        gap: 6px;
+    }
+    
+    .variant-item {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .variant-size {
+        font-size: 10px;
+    }
 } 
