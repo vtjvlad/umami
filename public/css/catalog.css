@@ -484,7 +484,7 @@ a:hover {
 
 .product-price {
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--primary-color);
     margin-bottom: 0;
 }
@@ -494,6 +494,22 @@ a:hover {
     color: var(--light-text);
     font-size: 0.9rem;
     margin-left: 8px;
+}
+
+.price-container{
+    display: block;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    opacity: 1;
+    /* visibility: visible; */
+    transition: opacity 0.3s;
+}
+
+.product-card:hover .price-container{
+    display: none;
+    /* opacity: 0; */
+    /* visibility: hidden; */
 }
 
 .discount-badge {

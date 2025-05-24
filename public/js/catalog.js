@@ -132,9 +132,17 @@ function createProductCard(product) {
                         <span class="product-price">${price} ₴</span>
                         ${hasDiscount && originalPrice ? `<span class="product-original-price">${originalPrice} ₴</span>` : ''}
                     </div>
+                    <div class="product-actions">
+    <button class="addToCart" id="addToCart">В корзину</button>
+    <button class="fastBuy" id="fastBuy">${price}₴</button>
+    <button class="moreInfo" id="moreInfo">Подробнее</button>
+    </div>
                 </div>
             </div>
-        </div>
+    
+</div>
+
+
     `;
 }
 
