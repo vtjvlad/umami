@@ -185,13 +185,25 @@ app.get("/w", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "catalog-old.html"));
 });
 
+// 502 handler middleware
+app.use((req, res, next) => {
+    // Проверяем состояние подключения к MongoDB
+    if (mongoose.connection.readyState !== 1) {
+        return res.status(502).sendFile(path.join(__dirname, 'public', '502.html'));
+    }
+    next();
+});
+
+// 404 handler middleware
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
-    res.status(500).json({ 
-        message: 'Внутренняя ошибка сервера',
-        error: err.message 
-    });
+    // Если произошла ошибка сервера, отправляем страницу 502
+    res.status(502).sendFile(path.join(__dirname, 'public', '502.html'));
 });
 
 app.listen(PORT, () => {

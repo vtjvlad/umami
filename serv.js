@@ -289,6 +289,20 @@ app.use((err, req, res, next) => {
     });
 });
 
+// 404 handler middleware
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+  });
+
+  // 502 handler middleware
+app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] === 'https' && !req.secure) {
+        return res.status(502).sendFile(path.join(__dirname, 'public', '502.html'));
+    }
+    next();
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
