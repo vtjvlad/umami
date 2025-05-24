@@ -5,9 +5,10 @@ const path = require("path");
 require("dotenv").config();
 
 const MONGO_URI = process.env.MONGO_URI;
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
+const PORT = 5000;
 
-const productSchema = require("./model");
+const productSchema = require("./public/model");
 const Product = mongoose.model('Product', productSchema);
 
 // Подключение к MongoDB
@@ -19,6 +20,21 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Эндпоинт для получения 7 случайных товаров для рекомендаций
+app.get('/api/recommendations', async (req, res) => {
+    try {
+        // Получаем случайные товары
+        const recommendations = await Product.aggregate([
+            { $match: { 'pid.groupKey': { $exists: true } } },
+            { $sample: { size: 13 } }
+        ]);
+        res.json(recommendations);
+    } catch (error) {
+        console.error('Ошибка при получении рекомендаций:', error);
+        res.status(500).json({ error: 'Ошибка при получении рекомендаций' });
+    }
+});
 
 // API endpoint to get all products
 app.get("/api/products", async (req, res) => {
