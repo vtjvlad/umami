@@ -44,7 +44,9 @@ function hideLoading() {
  */
 function createProductCard(product) {
     // Получаем URL изображения из различных возможных источников
-    const imageUrl = product.imageData?.portraitURL || 
+    const imageUrl = 
+    // product.imageData?.imgMain ||
+                   product.imageData?.portraitURL || 
                    product.imageData?.squarishURL || 
                    'https://via.placeholder.com/300x400';
     
@@ -232,8 +234,13 @@ function updateSiteBackground(color) {
         document.head.appendChild(styleElement);
     }
 
+    // :root {
+    //     --accent-color: ${color};
+    // }
+    
     // Добавляем плавный переход цвета с прозрачностью
     styleElement.textContent = `
+            
         body {
             background-color: ${color}99 !important; /* 99 в hex = 60% непрозрачности */
             transition: background-color 0.3s ease;
