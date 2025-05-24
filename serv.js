@@ -87,10 +87,10 @@ app.get("/api/products", async (req, res) => {
         if (req.query.sort) {
             switch (req.query.sort) {
                 case 'price_asc':
-                    sortOptions = { 'price.self.UAH.currentPrice': 1 };
+                    sortOptions = { 'price.self.selfUAH.current20': 1 };
                     break;
                 case 'price_desc':
-                    sortOptions = { 'price.self.UAH.currentPrice': -1 };
+                    sortOptions = { 'price.self.selfUAH.current20': -1 };
                     break;
                 case 'newest':
                     // Условно считаем, что id с большим значением - это более новые товары
@@ -102,8 +102,8 @@ app.get("/api/products", async (req, res) => {
                     sortOptions = { 
                         $expr: { 
                             $subtract: [
-                                { $ifNull: ['$price.self.UAH.fullPrice', 0] }, 
-                                { $ifNull: ['$price.self.UAH.currentPrice', 0] }
+                                { $ifNull: ['$price.self.selfUAH.initial20', 0] }, 
+                                { $ifNull: ['$price.self.selfUAH.current20', 0] }
                             ] 
                         }
                     };
@@ -180,8 +180,8 @@ app.get("/api/products", async (req, res) => {
             {
                 $group: {
                     _id: null,
-                    minPrice: { $min: "$price.self.UAH.currentPrice" },
-                    maxPrice: { $max: "$price.self.UAH.currentPrice" }
+                    minPrice: { $min: "$price.self.selfUAH.current20" },
+                    maxPrice: { $max: "$price.self.selfUAH.current20" }
                 }
             }
         ]);

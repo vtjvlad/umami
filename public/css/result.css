@@ -3,7 +3,7 @@
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     grid-template-areas:
-        ". . . ctrl ctrl"
+        "fa fa fa ctrl ctrl"
         "count count . ctrl ctrl"
     ;
 }
