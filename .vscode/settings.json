@@ -6,4 +6,6 @@
     "terminal.integrated.fontSize": 10,
     "editor.fontSize": 13,
     "chat.editor.fontSize": 15,
+    "browser-preview.ignoreHttpsErrors": true,
+    "open-in-browser.defaultBrowser": "Safari",
 }

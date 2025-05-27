@@ -21,13 +21,17 @@
   "dependencies": {
     "acorn": "^8.14.1",
     "acorn-walk": "^8.3.4",
+    "axios": "^1.9.0",
     "cheerio": "^1.0.0",
     "cherio": "^1.0.0-rc.2",
+    "cli-progress": "^3.12.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "escodegen": "^2.1.0",
     "express": "^5.1.0",
     "fs": "^0.0.1-security",
-    "mongoose": "^8.14.3"
+    "mongoose": "^8.14.3",
+    "node-telegram-bot-api": "^0.66.0",
+    "puppeteer": "^24.9.0"
   }
 }
